@@ -1,0 +1,167 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixin';
+
+#footer
+{
+    width:100%;
+    height:auto;
+    background-color: #141414;
+    display:flex;
+}
+.footer__container
+{
+    width: 1260px;
+    width:90%;
+    margin: 0 auto;
+    padding: 80px 0;
+}
+.row__info
+{
+    display:flex;
+    width: 100%;
+    .column1
+    {
+        width:32% ;
+        display:flex;
+        flex-direction: column;
+    }
+    .column2
+    {
+        width: 68% ;
+        .row {
+            font-size: 1.1rem;
+            ul
+            {   text-align: left;
+                list-style-type: none;
+                color:$primary-color;
+                li:first-child
+                {
+                    margin-bottom: 20px;
+                }
+               
+            }
+        }
+        a{
+            display:inline-block;
+            text-decoration: none;
+            color:$primary-color;
+            padding: 5px;
+        }
+    }
+}
+
+.row__info
+{
+    img
+    {
+        width: 6rem;
+        margin-left:8px;
+    }
+}
+.social__icon
+{
+    display:flex;
+    font-size: 26px;
+    color: $primary-color;
+    margin-top:25px;
+}
+
+.social__icon-item
+{
+    cursor:pointer;
+    border: 1px solid $primary-color;
+    border-radius: 50%;
+    padding: 5px;
+    margin: 0 8px;
+    &:hover
+    {
+       color: $secondary-color;
+       border-color:$secondary-color;
+    }
+}
+.module__payment
+{
+    width:100%;
+    // padding-bottom:20px;
+}
+.row__banking
+{
+    width: 32%;
+    .payment__title
+    {
+        text-align:left;
+        margin-bottom: 24px;
+        margin-left: 5px;
+        font-size: 1rem;
+        color: $primary-color;
+    }
+}
+.payment__credit{
+    display:flex;
+    align-items: center;
+    .payment__credit-item
+    {
+        background-color: $primary-color;
+        border-radius: 4px;
+        margin: 0 5px;
+        padding: 10px;
+       img
+       {
+            width: 60px;
+            height:38px;
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+	// rules here apply to devices from 993px to 1200px (inclusive)
+
+}
+@media (max-width: 992px) {	
+
+}
+@media (max-width: 768px) {
+    .row__info
+    {
+        flex-direction: column;
+        .column1
+        {
+            width:100%;
+        }
+        .column2
+        {
+            width:100%;
+            margin-top: 30px;
+            padding:0;
+        }
+    }
+   
+    .row__banking
+    {
+        width:100%;
+        margin: 0 auto;
+    }
+    .payment__credit-item 
+    {
+        width: 131px;
+        height: 68px;
+     }
+
+}
+@media (max-width: 480px)
+{
+    .footer__container{
+        padding: 20px;
+        .column1{
+            margin-left: 10px;
+        }
+        .column2{
+            display: none;
+            
+        }
+        .module__payment {
+            margin: 23px 0;
+        }
+
+    }
+}

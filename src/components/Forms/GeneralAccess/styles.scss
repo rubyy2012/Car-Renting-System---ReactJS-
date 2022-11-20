@@ -1,0 +1,38 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixin';
+
+div.access__account
+{
+    font-size:1.3rem;
+    color: #a9aaad;
+}
+div.access__button-share
+{
+    display: flex;
+    justify-content: space-between;
+    margin-top:50px;
+    .button__share-item
+    {
+        a
+        {
+            padding: 20px 48px;
+            color: $primary-color;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius:8px; 
+            background-color: #f34a38;
+            &.icon__share-facebook
+            {
+                background-color: #4267b2;
+
+            }      
+            .icon__share
+            {
+                font-size:35px;
+                margin-right:8px;
+            }
+        }
+    }
+}
+

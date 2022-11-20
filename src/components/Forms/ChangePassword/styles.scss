@@ -1,0 +1,85 @@
+
+#change__password
+{
+    width:100%;
+    position: fixed;
+    top:0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+ 
+
+}
+.change__password-container
+{
+    position: relative;
+    padding: 10px 40px;
+    margin: 200px auto; 
+    .change__password-layout{
+        position: relative;
+        background-color: #fff;
+        margin: auto;
+        border-radius: 3px;
+        max-width:500px;
+        box-shadow: 0 6px 10px rgb(0 0 0 / 30%);
+    }
+    .change__password-layout .change__pw-header
+    {
+        position: relative;
+        padding: 40px 20px 40px;
+        color: #141414;
+        font-size: 1.5em;
+        line-height: 1.5;
+        font-weight: 700;
+        text-align: center;
+    }
+    .change__pw-title{
+        font-weight: 700;
+        font-size:2rem;
+    }
+    .change__pw-header .close {
+        cursor:pointer;
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1;
+        border: none;
+        color: #6c6c6e;
+        background-color: transparent;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 0.5;
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        padding: 0.5rem;
+        margin: -1rem -1rem -1rem auto;
+    }
+    .change__pw-body{
+        padding: 0 40px 40px;
+        position: relative;
+        font-size: .875em;
+    }
+}
+
+.input__wrapper
+    {
+           display: flex;
+           align-items: center;
+           width: 100%;
+           padding-left: 15px;
+           position:relative;
+           border:1px solid #e8eaef;
+           border-radius: 5px;
+           color: #00a550;
+           margin: 12px 0;
+           input
+                {
+                padding: 12px 10px;
+                width: -webkit-fill-available;
+                border:none;
+                outline: none;
+                font-size: 1.2rem;
+                background-color: transparent;
+                }
+    }
+

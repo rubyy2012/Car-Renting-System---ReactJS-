@@ -1,0 +1,59 @@
+.basic__infor-layout
+{
+    width:100%;
+    height:100%;
+    padding: 60px 30px;
+   
+    .group.form-default{
+        h6.basic__infor-label {
+            display: block;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #141414;
+            font-size: 1.3em;
+            line-height: 1.5;
+            text-align: left;
+            clear: left;
+        }
+        
+        .col-left {
+            float: left;
+            width: 50%;
+            padding-right: 30px;
+            clear: left;
+        }
+        .col-right{
+            float: left;
+            width: 50%;
+        }
+        span.takenote{
+            display: block;
+            float: left;
+            clear: left;
+            font-weight: 500;
+            color: #a29494;
+            font-size: 16px;
+            margin-bottom: 1.4rem;
+        }
+        .label-input
+        {
+            font-size: 1rem;
+            font-weight:500;
+            margin-bottom: 14px;
+        }
+    }
+    input.btn-save{
+        padding: 10px 40px;
+        border:none;
+        color: #fff;
+        background-color: rgb(24, 124, 62);
+        font-weight: 500;
+        font-size: 1.2rem;
+    }
+
+    input.inactive{
+        background-color: rgba(242, 242, 242, 0.806);
+    }
+}
+
+

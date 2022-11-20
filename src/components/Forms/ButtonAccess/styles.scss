@@ -1,0 +1,21 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixin';
+     .access__btn
+     {
+        width:100%;
+        margin: 0 auto;
+        margin-top: 10px;
+        padding: 10px 12px;
+        font-size:1.5rem;
+        @include styleButton();
+        background-color: $secondary-color;
+        border-radius: 4px;
+        b{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+        &:hover{
+            background-color: rgb(0, 145, 89);
+        }
+    }

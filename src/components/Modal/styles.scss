@@ -1,0 +1,18 @@
+.contailer__modal
+{
+    width: 100%;
+    height:100%;
+}
+.contailer__modal.hidden{
+    display:none;
+}
+.modal-layout{
+    position:fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    margin: auto;
+    height: 100%;
+}

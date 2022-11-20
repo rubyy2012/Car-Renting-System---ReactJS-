@@ -1,0 +1,136 @@
+.address__form{
+    width:100%;
+    .address__form-container
+    {
+        position: relative;
+        width: auto;
+        margin: 40px auto; 
+    }
+}
+.modal__content {
+    position: relative;
+    background-color: #fff;
+    margin: auto;
+    border-radius: 3px;
+    max-width:478px;
+    box-shadow: 0 6px 10px rgb(0 0 0 / 30%);
+}
+.modal-header{
+    position: relative;
+    padding: 40px 20px 40px;
+    color: #141414;
+    font-size: 1.5em;
+    line-height: 1.5;
+    font-weight: 700;
+    text-align: center;
+  
+}
+.modal-header .close {
+    cursor:pointer;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    border: none;
+    color: #6c6c6e;
+    background-color: transparent;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.5;
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    padding: 0.5rem;
+    margin: -1rem -1rem -1rem auto;
+}
+h4.modal-title {
+    display: block;
+    width: 100%;
+    font-size:1.25em;
+}
+.modal-body {
+    padding: 0 40px 40px;
+    position: relative;
+    font-size: .875em;
+}
+.form-default .line-form {
+    margin-bottom: 20px;
+}
+.asterisk__icon{
+    color: red;
+    font-size: 6px;
+    margin-left: 3px;
+    margin-top: -10px;
+}
+.form-default label.label {
+    font-weight: 500;
+    font-size: .875rem;
+}
+.form-default label.sublabel {
+    display: block;
+    font-size: .75rem;
+    margin-bottom: 10px;
+    color: #34495f;
+    text-align: left;
+}
+.wrap-select {
+    margin-bottom: 10px;
+    border-radius: 3px;
+    display: block;
+    position: relative;
+    background-color: #fff;
+    width: 100%;
+    border: 1px solid #e8eaef;
+}
+.form-default .line-form .wrap-input {
+    background-color: #fff;
+    border: 1px solid #e8eaef;
+    border-radius: 3px;
+}
+.here-autocomplete {
+    height: 100%;
+}
+.wrap-input input {
+    background-color: initial;
+    line-height: 1rem;
+    font-size: .875rem;
+    width:100%;
+    height:100%;
+    border:none;
+    outline:none;
+    padding: 0 20px;
+}
+.wrap-2-btn {
+    width: 100%;
+}
+.marginTop-m {
+    margin-top: 20px;
+}
+.wrap-2-btn button:first-child {
+    margin-right: 1rem;
+}
+.wrap-2-btn .btn {
+    width: calc(50% - 0.5rem);
+}
+.btn {
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 500;
+    border: 0;
+}
+.btn.btn--m {
+    height: 46px;
+    line-height: 46px;
+    padding: 0 20px;
+    font-size: 1rem;
+}
+.btn.btn-secondary {
+    color: #fff;
+    background-color: #141414;
+    box-shadow: none;
+}
+
+.disable-btn{
+    background-color: #80d2a8 !important;
+}

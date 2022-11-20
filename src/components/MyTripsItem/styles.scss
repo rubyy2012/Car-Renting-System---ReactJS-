@@ -1,0 +1,53 @@
+.mytrips__item-layout
+{
+    width:100%;
+    // padding: 30px 0;
+    margin-bottom: 20px;
+    box-shadow: 0 0 2px #bbbcc0;
+    display:flex;
+    flex-direction: column;
+    .mytrips__item-box
+    {
+        padding: 20px 30px;
+        background-color: #fff;
+        border-bottom: 1px solid #ccc;
+        &>h2{
+            font-weight:800;
+            font-size: 1.5rem;
+        }
+        .trips-item-content
+        {
+            margin-top: 20px;
+            display:flex;
+            width:100%;
+            img{
+                width: 20%;
+            }
+            .trips-infor
+            {
+                width:80%;
+                display:flex;
+                justify-content: center;
+                flex-direction:column;
+                margin-left: 30px;
+                &>h6{
+                    font-weight: 700;
+                    font-size:1rem;
+                }
+            }
+        }
+    }
+    .mytrips__item-status
+    {
+        min-height:50px;
+        width:100%;
+        background-color:#f8f9fb;
+        &>p{
+            margin-left:40px;
+            height:100%;
+            font-weight:500;
+            line-height:50px;
+             margin-bottom: 0;
+        }
+    }
+}

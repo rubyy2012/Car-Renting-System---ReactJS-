@@ -1,0 +1,65 @@
+
+@import '../../assets/styles/_mixin';
+@import '../../assets/styles/variables';
+
+
+@include modalForm(572px);
+.layout__container-wrapper
+{
+    position:relative;
+    background-color: rgb(255, 255, 255);
+    .layout__header
+    {
+        .btn-close
+        {
+            position:absolute;
+            top: 17px;
+          right: -26px;
+        }
+    }
+    .wrapper
+    {
+        text-align: left;
+        span{
+            display:block;
+            margin-top:5px;
+            margin-bottom: -5px;
+            color:#acadb0 ;
+            font-size: 0.9rem;
+        }
+        .style__icon
+        {
+            margin-right: 5px;
+        }
+        label
+        {
+            font-weight: 700;
+        }
+        .uploadImage
+        {
+            background-size: contain;
+            margin: 30px 0;
+            max-width: 186px;
+            height:152px;
+            display:flex;
+            justify-content: center;
+            color: #fff;
+            align-items: center;
+            label {
+                background-color: rgb(71, 177, 71);
+                padding: 8px 16px;
+                border-radius: 5px;
+                cursor:pointer;
+            }
+            #imgFile{
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                z-index: -1;
+            }
+
+        }
+    }
+}
+

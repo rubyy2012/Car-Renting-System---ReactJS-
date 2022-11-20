@@ -1,0 +1,55 @@
+
+.modal__email-number{
+    margin: auto;
+    max-width: 572px;
+    width: 90%;
+    //height:348px;
+    padding-bottom: 50px;
+    background-color: #fff;
+    border-radius:3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; 
+    form
+    {
+        width:100%;
+    }
+ }
+
+.email__header
+{
+    padding: 50px 30px 0px;
+    .btn-close{
+        position: absolute;
+        right:10px;
+        top: 10px;
+        outline:none;
+        border:none;
+    }
+        .email__header-title{
+        text-align: center;
+        font-weight: 700;
+        padding-top:15px;
+    }
+}
+    .email__input-wrapper,
+    .email__btn-wrapper
+    {
+        width:100%;
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+    }
+    .email__btn-wrapper
+    {
+        width: 90%;
+        margin:auto;
+    }
+    .email__input
+    {
+        width:80%;
+        border:1px solid #ccc;
+        padding: 10px 20px;
+        outline:none;
+    }

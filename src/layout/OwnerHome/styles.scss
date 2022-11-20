@@ -1,0 +1,78 @@
+.car__owner-layout
+{
+    width:100%;
+    .sidebar-control.z-2 {
+        position: relative;
+        z-index: 2;
+        .module-settings.min-height-register {
+            padding-left: 0;
+            .module-trips {
+                width: 100%;
+                .trip-container {
+                    max-width: 770px;
+                    margin: 0 auto;
+                   
+                }
+            }
+        }
+        .module-settings {
+            position: relative;
+            margin: 0 auto;
+            background-color: #f8f9fb;
+            padding: 45px 0;
+        }
+    }
+}
+
+.btn-register-car {
+    background-color: green;
+    color: #fff;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 500;
+    border: 0;
+    height: 46px;
+    line-height: 46px;
+    padding: 0 20px;
+    font-size: 1rem;
+    box-shadow: none;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    width: 30%;
+    margin-bottom: 1.5rem;
+}
+.home__owner-icon{
+    margin-right:10px;
+    font-size:25px;
+    color: red;
+}
+.register-mode {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    .wrap-2-btn {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+    } 
+}
+
+////////////////////////////////////////////////////////////////////
+// @media screen and (max-width:768px)
+// {
+//     .btn-register-car {
+
+//         height: 30px;
+//         line-height: 30px;
+//         padding: 0 10px;
+//         font-size: 0.5rem;
+//     }
+
+// }
