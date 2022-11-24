@@ -1,7 +1,7 @@
 import './styles.scss';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import travel from '../../assets/images/Banner/travel-road.jpg';
 import SlickSlider from '../../components/Forms/SlickSlider/SlickSlider';
 import dantri from '../../assets/images/Banner/news-dantri.2d5c647f.svg';
@@ -111,13 +111,75 @@ function MainScreen() {
         },
     ]
 
+    const [districts, setDistricts] = useState([])
+    const [idDistrict,setIdDistrict] = useState('')
+    const [wards,setWards] = useState([
+        {
+          "id": 1,
+          "name": "Phường Hòa Hiệp Bắc"
+        },
+        {
+          "id": 2,
+          "name": "Phường Hòa Hiệp Nam"
+        },
+        {
+          "id": 3,
+          "name": "Phường Hòa Khánh Bắc"
+        },
+        {
+          "id": 4,
+          "name": "Phường Hòa Khánh Nam"
+        },
+        {
+          "id": 5,
+          "name": "Phường Hòa Minh"
+        }
+      ])
+
+    const handleChangeDistrict = (e) => {
+        const getIdDistrict = e.target.value
+        setIdDistrict(getIdDistrict)
+        console.log(idDistrict)
+    }
+
     useEffect(()=>{
-        axios.get('https://rentalcarpbl6api.azurewebsites.net/api/Car/View/WardDistrict')
-            .then(res=>{
-                console.log(res.data);
-            })
-    },[])
+ 
+        const getDistrict = async () => {
+            try {
+                axios.get('https://rentalcarpbl6api.azurewebsites.net/api/District')
+                .then(res=>{
+                    setDistricts(res.data)
+                    console.log(res.data)
+                })
+            }
+            catch(error)
+            {
+                console.log('districts:something error')
+            }  
+        }
+        getDistrict()},[])
+
+    useEffect(()=>{
+            const getWards = async() => 
+            {
+                try
+                {
+                    await axios.get(`https://rentalcarpbl6api.azurewebsites.net/api/District/${idDistrict}`)
+                    .then( res=>{
+                        setWards(res.data)
+                        console.log(wards)
+                    })
+                }
+                catch(error)
+                {
+                    console.log('wards:something error',error)
+                }
+                
+            }
+            getWards()
+        },[idDistrict])
     return (
+
        <div id='main' className=''>
        <div className="wrapper">
         <div className=" main__wrapper">
@@ -125,7 +187,7 @@ function MainScreen() {
                 <div className="wrapper__title">
                     <h1>MIOTO - CÙNG BẠN TRÊN MỌI HÀNH TRÌNH</h1>
                 </div>
-                <FormSearching/>
+                <FormSearching districts = {districts} handleChangeDistrict={handleChangeDistrict} wards={wards}/>
              </div>
 
              <div className="container wrapper__features">

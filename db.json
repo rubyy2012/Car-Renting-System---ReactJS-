@@ -1,0 +1,51 @@
+{
+    "data":{
+        "name":"data",
+        "carBrand": [
+            {
+                "id":1,
+                "name": "brand1",
+                "carModel":[
+                    {
+                        "id":1,
+                        "name":"model1"
+                    },
+                    {
+                        "id":2,
+                        "name":"model2"
+                    },
+                    {
+                        "id":3,
+                        "name":"model3"
+                    }
+                ]
+
+            },
+            {
+                "id":2,
+                "name": "brand2",
+                "carModel":[
+                    {
+                        "id":4,
+                        "name":"model4"
+                    },
+                    {
+                        "id":5,
+                        "name":"model5"
+                    },
+                    {
+                        "id":6,
+                        "name":"model6"
+                    }
+                ]
+
+            }
+        ],
+    
+    
+    "capacity": [
+    1,2,3,4,5
+    ]
+    }
+    
+}
