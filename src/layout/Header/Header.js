@@ -11,30 +11,44 @@ import { BsList } from "react-icons/bs";
 import avatar from '../../assets/images/Header/Avatar.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { set } from 'react-hook-form';
+import jwt from 'jwt-decode';
 
 function Header(props) {
 
     const [isLogin,setIsLogin] = useState(false);
-    const userToken = localStorage.getItem('userToken')||null;
+    //const userToken = localStorage.getItem('userToken')||null;
+    const [userToken,setUserToken] = useState(localStorage.getItem('userToken')||null)
+    const [name,setName] = useState('')
+    
     useEffect(()=>{
-             if(userToken!==null)
-                {
-                    setIsLogin(true);
-                }
-                else{
-                    setIsLogin(false);
-                }
-    },[isLogin,userToken]);
+        let token =localStorage.getItem('userToken')
+        if(token!==null)
+        {
+            setUserToken(token)
+            const user = jwt(userToken)
+            console.log(user)
+            setName(user.family_name)
+            // if(user.exp < Date.now() - user.iat)
+            // {
+            //     setIsLogin(false)
+            //     localStorage.removeItem('userToken')
+            // }
+            setIsLogin(true);
+        }
+        else{
+            setUserToken(null)
+            setIsLogin(false);
+        }
+    },[userToken,isLogin]);
 
     const navigate = useNavigate();
     const handleLogout = () =>
     {
         if(userToken!==null)
         {
-            localStorage.removeItem('userToken');
+            localStorage.removeItem('userToken');          
         }
-        console.log('abc');
+        setIsLogin(false)
         navigate('/');
     }
     const [showAccountBlock,setShowAccoutBlock] = useState(false)
@@ -75,7 +89,7 @@ function Header(props) {
                                 isLogin?<li>
                                 <button onClick={handleOpenAccount}>
                                     <img src={avatar} alt="" className='img_avt'/>
-                                    Username
+                                    {name}
                                 </button>
                                 { showAccountBlock? <div className="user__account">
                                     <ul className="user__account-list">

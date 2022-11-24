@@ -1,12 +1,218 @@
 .finding__cars-container
 {
     width: 100%;
-    height: 800px;
+    // height: 800px;
     padding: 0 120px;
-    background-color: #ccc;
+    background-color: #e8eaef;
     .finding__cars-layout
     {
         width:100%;
         height:100%;
+        .navbar__search{
+            width: 100%;
+            background-color: #fff;
+            padding: 14px 30px;
+            box-shadow: 0 0 3px #434141;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            .navbar__search-layout
+            {
+                display:flex;
+                // justify-content:space-between;
+                .form-has-location
+                {
+                    display:flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    .finding-title
+                    {
+                        margin: 0 10px;
+                        color: #00a550;
+                        font-weight:700;
+                    }
+                    .finding-options
+                    {
+                        padding: 5px 10px;
+                        border: 1px solid #ccc;
+                        border-radius:3px;
+                        outline:none;
+                    }
+                }
+                .form-has-timer{
+                    display:flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    margin-left: 80px;
+                    .finding-title
+                    {
+                        color:#00a550;
+                        margin: 0 10px;
+                        font-weight:700;
+                    }
+                    .date-container
+                    {
+                        margin-right:20px;
+                        &:hover{
+                            cursor:pointer;
+                            color: green;
+                        }
+                    }
+                    .calendar{
+                        position:fixed;
+                        z-index:1;
+                    }
+                }
+                
+            }
+        }
+        .main__search
+        {
+            width:100%;
+            display:flex;
+            .cars__sidebar-filter{
+                padding: 40px;
+                width: 30%;
+                background-color: #fff;
+                height: 520px;
+                border-radius: 3px;
+                .finding-title
+                {
+                    margin-bottom:16px;
+                    font-weight:700;
+                    color:#00a550;
+                }
+                .finding-options
+                {
+                    border-radius: 2px;
+                    width:100%;
+                    outline:none;
+                    border:1px solid #e8eaef;
+                    margin-bottom: 40px;
+                    -webkit-border-radius: 2px;
+                    -moz-border-radius: 2px;
+                    -ms-border-radius: 2px;
+                    -o-border-radius: 2px;
+}
+            }
+            .cars__display-list
+            {
+                padding-left:10px;
+                width: 70%;
+                height: auto;
+                padding-bottom: 30px;
+                .listcars__result-wrapper
+                {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-around;
+                    scroll-snap-type: y mandatory;
+                    overflow-y:scroll; 
+                    height: 100vh; 
+                    &::-webkit-scrollbar
+                        {
+                            width:3px;
+                            border-radius:2px;                    
+                        }
+                        &::-webkit-scrollbar-thumb{
+                            background-color: rgba(3, 115, 34, 0.6);
+                        }
+                    .no-car
+                    {
+                        margin-top:40px;
+                        font-size: 1rem;
+                        font-weight:500;
+                        color: #afaaad;
+                    }
+                    .has-cars
+                    {
+                        display: contents;
+                        
+                        .result-car-item
+                        {
+                            display:block;
+                            border-radius:3px;
+                            width: 49%;
+                            text-decoration: none;
+                            margin: 5px 0;
+                            .image-car-box
+                              {
+                                position:relative;
+                                img
+                                {
+                                    width:100%;
+                                    height:100%;
+                                }
+                                .main-infor-box 
+                                {
+                                    position: absolute;
+                                    color:white;
+                                    bottom:0;
+                                    padding-left: 10px;
+                                    .name-car
+                                    {
+                                        font-size: 1.2rem;
+                                        font-weight:700;
+                                        margin-bottom: 0;
+                                    }
+                                    .stars
+                                    {
+                                        font-size:1rem;
+                                        margin-bottom: 0.5rem;
+                                        font-weight:600;
+                                        .stars-icon
+                                        {
+                                            margin-bottom: 5px;
+                                            font-size: 20px;
+                                        }
+                                    }
+                                }
+                            }
+                            .location-box
+                            {
+                                background-color: #fff;
+                                width: 100%;
+                                color: #000;
+                                padding-bottom:10px;
+                                .type-and-price
+                                {
+                                    width: 100%;
+                                    display:flex;
+                                    justify-content: space-between;
+                                    padding: 20px 10px 5px 10px;
+                                    .type-car
+                                    {
+                                        color: #7a7c7a;
+                                        padding: 5px 10px;
+                                        background-color: #e8eaef;
+                                        font-size: 0.8rem;
+                                        font-weight: 500;
+                                        margin-bottom: 0;
+                                        border-radius: 4px;
+                                    }
+                                    .price-car
+                                    {
+                                        font-weight: 800;
+                                        color: #00a550;
+                                        margin-bottom: 0;
+                                    }
+                                }
+                                .address
+                                {
+                                    margin-bottom: 0;
+                                    padding-left:10px;
+                                    font-size: 0.8rem;
+                                    .address-icon
+                                    {
+                                        margin-bottom:3px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                  
+                }
+            }
+        }
     }
 }

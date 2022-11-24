@@ -25,7 +25,7 @@ import BasicInfor from './components/BasicInforRegistedCar/BasicInfor';
 import UpdateImageCar from './components/UpdateImageCar/UpdateImageCar';
 import UpdateLicense from './components/UpdateLicense/UpdateLicense';
 import MyTrips from './pages/MyTrips';
-import FindCarLayout from './layout/FindCarLayout/FindCarLayout';
+import FindCar from './pages/FindCar';
 function App() {
   return (
     <div className="App">
@@ -39,7 +39,7 @@ function App() {
               <Route path='/myCars' element = {<MyCars/>}/>
               <Route path='/myTrips' element = {<MyTrips/>}/>
               <Route path='/change-password' element = {<ChangePassword/>}/>
-              <Route path='/find-cars' element = {<FindCarLayout/>}/>
+              <Route path='/find-cars' element = {<FindCar/>}/>
               <Route path='myownCar' element = {<UpdateCarLayout/>}>
                    <Route path='infor' element = {<BasicInfor/>}/> 
                    <Route path='updateImage' element= {<UpdateImageCar/>}/>

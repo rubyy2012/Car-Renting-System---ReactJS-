@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import BaseFormImage from '../../components/BaseFolder/BaseFormImage';
+import { useEffect } from 'react';
+
+
+
 function CarRegister() {
-
-    const handleInput = () => {
-
-    }
+    
 
     // const formData = new FormData();
    
@@ -70,8 +71,70 @@ function CarRegister() {
     //                 .then(res=>console.log(res))
     //                 .catch(error=>console.log(error));             
     // }
+    
+    const [data,setData] = useState()
+    const [carBrandList, setBrand] = useState([])
+    const [carModelList, setModel] = useState([])
+    const [idBrand,setIdBrand] = useState(0)
+
+    const handleChangeBrand = (e) => {
+        const getIdBrand = e.target.value
+        setIdBrand(getIdBrand)
+        console.log('hello')
+    }
+    console.log(idBrand)
+
+    useEffect(()=>{
+        
+        const getData= async () => {
+            try {
+                axios.get('http://localhost:3000/data')
+                .then(res=>{
+                    let brandlist=[]
+                    let modellist=[]
+                    for(let i in res.data.carBrand){
+                        
+                        let car_brand = {
+                            id: res.data.carBrand[i].id,
+                            name: res.data.carBrand[i].name
+                        };
+                        brandlist.push(car_brand)
+                                                              
+                        let model_list=[];
+                        let list_car=res.data.carBrand[i]
+                        for(let j in list_car.carModel){
+                            let model = {
+                                id: list_car.carModel[j].id,
+                                name: list_car.carModel[j].name 
+                            }
+                            model_list.push(model)
+                            //console.log(model_list)
+                        }
+                        
+                        modellist.push(model_list)
+                        
+                    }
+                    
+                    setBrand(brandlist) 
+                    setModel(modellist)   
+                    // console.log(brandList)
+
+                    // setData(res.data)
+                    // console.log(data)
+                })
+            }
+            catch(error)
+            {
+                console.log('districts:something error')
+            }  
+        }
+        getData()},[])
+        // setIdBrand(...idBrand,1)
+        // console.log(carBrandList)
     return (
+        
         <div className='module-register'>
+        
             <div className="register-container">
                 <div className="content-register">
                 <form action="">
@@ -100,12 +163,12 @@ function CarRegister() {
                             <div className="line-form">
                                 <label htmlFor="" className='label'>Hãng xe</label>
                                 <span className='wrap-select'>
-                                    <select name="" id="">
-                                        <option value="">Chọn hãng xe</option>
-                                        <option value="">Audi</option>
-                                        <option value="">Baic</option>
-                                        <option value="">Betley</option>
-                                        <option value="">BMW</option>
+                                    <select name="" id="" onChange={e=>handleChangeBrand(e)}>
+                                    {
+                                        carBrandList.map((item,index)=>(
+                                            <option value={index} key={index}>{item.name}</option>
+                                        ))
+                                    }
                                     </select>
                                 </span>
                             </div>
@@ -115,10 +178,7 @@ function CarRegister() {
                                  <label htmlFor="" className='label'>Mẫu xe</label>
                                  <span className='wrap-select'>
                                     <select name="" id="">
-                                        <option value="">Chọn hãng xe trước</option>
-                                        <option value="">Chưa chọn</option>
-                                        <option value="">BENTLEY CONTINENTAL</option>
-                                        <option value="">BENTLEY GT SPORT</option>
+                                    
                                     </select>
                                 </span>
                             </div>
@@ -192,7 +252,7 @@ function CarRegister() {
                         <div className="line-form">
                                 <label htmlFor="" className="label"></label>
                                 <div className="wrap-input">
-                                    <input type="text" value='10' onChange={handleInput} />
+                                    <input type="text"  />
                                 </div>
                             </div>
                         </div>
@@ -220,7 +280,7 @@ function CarRegister() {
                                     </p>
                                     <div className='wrap-input-label d-flex'>
                                         <div className="wrap-input">
-                                            <input type="text" value="3050" onChange={handleInput}/>
+                                            <input type="text" />
                                         </div>
                                         <span className='phay'>K</span>
                                     </div>

@@ -13,16 +13,13 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Authorization from '../../../apiServices/Authorization';
-
+import jwt from 'jwt-decode';
+import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
 
 function Register(props) {
-
-    const notify = () => {
-        const notifyBox = document.createElement('div')[0];
-        notifyBox.appendChild(<ToastContainer/>);
-        const fullWrap = document.getElementById('register');
-        fullWrap.appendChild(notifyBox);
-    }
+    const [isValidUser,setIsValidUser] = useState(null)
+    const navigate = useNavigate()
     const handleCloseModal = () => 
     {
         const modalElement = document.getElementsByClassName('modal__container')[0];
@@ -33,8 +30,7 @@ function Register(props) {
         const schema = yup.object().shape({
             yourName: yup.string().required('You have to enter your Fullname!'),
             userName: yup.string().required('You have to enter your username!'),
-            password: yup.string().min(5,'Your password must be at least 5 character!').required('You have to enter your password!'),
-            // confirmPassword: yup.string().oneOf([yup.ref('passWord'),null], 'Passwords must match').required('Please enter your confirm password!'),
+            password: yup.string().required('You have to enter your password!').min(5,'Your password must be at least 5 character!'),
             confirmPassword: yup.string().required('Please enter your confirm password!'),
             phoneNumber: yup.string().required('Enter your phone number').matches(
                 phoneRegExp,
@@ -42,38 +38,40 @@ function Register(props) {
             )
         });
         
-        const url = 'https://rentalcarpbl6api.azurewebsites.net/api/Auth/register'
-        const onSubmit = async(data) => {
-            console.log('check')
+        const onSubmit = async(data,e) => {
+            // e.preventDefault()
+            console.log('hello')
+            const url = 'https://rentalcarpbl6api.azurewebsites.net/api/Auth/register'
+             const newData = {
+                yourName:data.yourName,
+                userName: data.userName,
+                password: data.password,
+                confirmPassword: data.confirmPassword,
+                phoneNumber: data.phoneNumber,
+             }
+             console.log(newData)
                try
                {
-                 await axios.post(url, 
-                    {
-                      yourName:data.yourName,
-                      userName: data.userName,
-                      password: data.password,
-                      confirmPassword: data.confirmPassword,
-                      phoneNumber: data.phoneNumber,
-                    },
-                    {
-                        "Access-Control-Allow-Origin": "*",
-                    })
+                 await axios.post(url, newData)
                     .then(res=> {
-                            console.log('ok')
-                            localStorage.setItem('userToken',res.accessToken);  
+                            const token = res.data.accessToken
+                            localStorage.setItem('userToken',token);  
+                            console.log('try')
                             handleCloseModal();
-                            window.location.reload();
-                        
+                            setIsValidUser(null)
+                            navigate('/')
                     })
-                
-               } 
+                    .catch((error)=>{
+                        setIsValidUser(error.response.data.Message)
+                    })   
+                        
+                }      
                catch(error)
                {
-                    
+                    console.log("Something errored!")
                }
         } 
         const {register,handleSubmit, formState: {errors}} = useForm({resolver:yupResolver(schema)})
-    
     return (
         <div id='register'>
         <div className="modal__container">
@@ -96,7 +94,7 @@ function Register(props) {
                          <input type="text" {...register('userName')}  placeholder='Your Username' id='username' />
                      </div>
                      {errors.userName?<p className='error_messages'>{errors.userName.message}</p>:''}
-
+                     {/* {isError? <p className='error_messages'>{errorMess}</p>:''} */}
                      <div className="input__wrapper">
                          <FiLock width={30} size={24}/>
                          <input type="text" {...register('password')} placeholder='Password' id='password' name='password' />
@@ -111,12 +109,11 @@ function Register(props) {
                          <BiPhone width={30} size={24}/>
                          <input type="text" {...register('phoneNumber')} placeholder='Phone number' id='phonenumber' name='phoneNumber'/>
                      </div> 
-                    <p className='error_messages'></p>
+                     {errors.phoneNumber? <p className='error_messages'>{errors.phoneNumber.message}</p>:''}
+                     {isValidUser? <p className='error_messages'>{isValidUser}</p>:''}
                 </div>
-                <ButtonAccess namebtn='ĐĂNG KÝ'  onSubmit={handleSubmit(onSubmit)} />
+                <ButtonAccess namebtn='ĐĂNG KÝ' onHandleSubmit={handleSubmit(onSubmit)}/>
               </form>
-            {/* <p>Bạn đã có tài khoản? <a href=''> Hãy đăng nhập!</a></p>
-            <span></span> */}
          </div>          
         </div>     
         </div>
