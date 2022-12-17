@@ -1,0 +1,54 @@
+     // const [districts, setDistricts] = useState([])
+    // const [idDistrict,setIdDistrict] = useState('0')
+    // const [wards,setWards] = useState([])
+ 
+ // const handleChangeDistrict = (e) => {
+    //     const getIdDistrict = e.target.value
+    //     setIdDistrict(getIdDistrict)
+    // }
+
+    // useEffect(()=>{
+ 
+    //     const getDistrict = async () => {
+    //         try {
+    //             const res = request.get('District')
+    //             setDistricts(res)
+    //             setIdDistrict(res[0].id)
+                 //CACH 2
+                // await axios.get(`https://rentalcarpbl6api.azurewebsites.net/api/District`)
+                // .then(res=>{
+                //     setDistricts(res.data)
+                //     setIdDistrict(res.data[0].id)
+                //     console.log(res.data)
+                // })
+    //         }
+    //         catch(error)
+    //         {
+    //             console.log('districts:something error')
+    //         }  
+    //     }
+    //     getDistrict()},[])
+
+    //    useEffect(()=>{
+    //         const getWards = async() => 
+    //         {
+    //             try
+    //             {
+    //                 const res = request.get(`District/${idDistrict}`)
+    //                 setWards(res)
+                     // CACH 2
+                    // await axios.get(`https://localhost:7054/api/District/${idDistrict}`)
+                    // await axios.get(`https://rentalcarpbl6api.azurewebsites.net/api/District/${idDistrict}`)
+                    // .then( res=>{
+                    //     setWards(res.data)
+                    // })
+                // }
+
+        //         catch(error)
+        //         {
+        //             console.log('wards:something error',error)
+        //         }
+                
+        //     }
+        //     getWards()     
+        // },[idDistrict])

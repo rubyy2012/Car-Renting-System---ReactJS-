@@ -3,7 +3,9 @@ import React, { useEffect } from 'react';
 import * as request from '../../utils/request';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
-function UpdateImageCar() {
+
+
+function UpdateAssuarance() {
     const location = useLocation()
     const idCar = location.state
     console.log(idCar)
@@ -26,21 +28,21 @@ function UpdateImageCar() {
          {
              for(let i = 0; i<images.length;i++)
              {
-                 formData.append('listImage',images[i]);
+                 formData.append('images',images[i]);
              }
          }
 
         //HANDLE API
 
-        const [imagesCar,setImagesCars] = useState()
+        const [imagesAssuarance,setImagesAssuarance] = useState()
         
 
-            const handleSubmitImagesCar = async () => {
+            const handleSubmitAssuarance = async () => {
                 try
                 {
                     console.log('click')
-                    const res = await request.postWithFormData(`Car/${idCar}/CarImage`,formData)
-                    setImagesCars(res)
+                    const res = await request.postWithFormData(`Car/${idCar}/CarImageType/3`,formData)
+                    setImagesAssuarance(res)
                     window.location.reload()
                     console.log(res)
                 }
@@ -52,12 +54,12 @@ function UpdateImageCar() {
 
             // GET DATA FROM API
             useEffect(()=>{
-                const getImagesCar= async() => 
+                const getImagesAssuarance= async() => 
                 {
                    try
                     {
-                        const res = await request.getWithToken(`Car/${idCar}/CarImage`)
-                        setImagesCars(res)
+                        const res = await request.getWithToken(`Car/${idCar}/CarImageType/3`)
+                        setImagesAssuarance(res)
                         // console.log(res)
                     }
                     catch(error)
@@ -65,11 +67,11 @@ function UpdateImageCar() {
                         console.log('errors in get images cavet',error)
                     } 
                 }
-                getImagesCar()
+                getImagesAssuarance()
              },[])
 
-          console.log(imagesCar)
-if(imagesCar)
+          console.log(imagesAssuarance)
+if(imagesAssuarance)
     return (
         <>
         <div className='type__license-container'>
@@ -107,7 +109,7 @@ if(imagesCar)
                             </ul>
                             <ul className='photo__box'>
                             {
-                                imagesCar.map(item=>(
+                                imagesAssuarance.map(item=>(
                                     <li className='img-boxitem' key={item.id}>
                                         <img src={item.path}  alt="" className='obj-photo photo-avatar'/>
                                     </li>
@@ -115,11 +117,11 @@ if(imagesCar)
                             }
                             </ul>
                         </div>
-            <button className='btn-send' onClick={handleSubmitImagesCar}>Cập nhật</button>
+            <button className='btn-send' onClick={handleSubmitAssuarance}>Cập nhật</button>
         </div>
         </>
        
     );
 }
 
-export default UpdateImageCar;
+export default UpdateAssuarance;

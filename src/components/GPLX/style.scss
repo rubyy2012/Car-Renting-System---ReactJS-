@@ -35,30 +35,26 @@
         {
             font-weight: 700;
         }
-        .uploadImage
+        .input__wrapper
         {
-            background-size: contain;
-            margin: 30px 0;
-            max-width: 186px;
-            height:152px;
-            display:flex;
-            justify-content: center;
-            color: #fff;
+            display: flex;
             align-items: center;
-            label {
-                background-color: rgb(71, 177, 71);
-                padding: 8px 16px;
-                border-radius: 5px;
-                cursor:pointer;
-            }
-            #imgFile{
-                width: 0.1px;
-                height: 0.1px;
-                opacity: 0;
-                overflow: hidden;
-                z-index: -1;
-            }
-
+            width: 100%;
+            padding-left: 15px;
+            position:relative;
+            border:1px solid #e8eaef;
+            border-radius: 5px;
+            color: $secondary-color;
+            margin: 12px 0;
+            input
+                    {
+                    padding: 12px 10px;
+                    width: -webkit-fill-available;
+                    border:none;
+                    outline: none;
+                    font-size: 1.2rem;
+                    background-color: transparent;
+                    }
         }
     }
 }

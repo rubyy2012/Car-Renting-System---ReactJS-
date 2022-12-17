@@ -6,9 +6,9 @@ import ButtonAccess from '../ButtonAccess/ButtonAccess';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 import { useState } from 'react';
-import { Redirect } from "react-router";
+import {useNavigate} from 'react-router-dom'
+import request from '../../../utils/request';
 function Login(props) {
 
     const handleCloseModal = () => 
@@ -25,22 +25,16 @@ function Login(props) {
     const onSubmit = async (data) => 
     {
         try {
-            const url = 'https://rentalcarpbl6api.azurewebsites.net/api/Auth/login'
             const dataUser = {
                 userName: data.userName,
                 password: data.password,
               }
-                await axios.post(url, dataUser)
-                    .then((res)=>{
-                        localStorage.setItem('userToken',res.data.accessToken)
-                        //console.log(localStorage.getItem('userToken'))
-                        handleCloseModal();
-                        setIsLogin(null)
-                        
-                    })
-                    .catch((res)=>{
-                        setIsLogin(res.response.data.Message)
-                    })
+                const res = await request.post('Auth/login', dataUser)
+                localStorage.setItem('userToken',res.data.accessToken)
+                handleCloseModal();
+                setIsLogin(null)
+                window.location.reload()
+                console.log("user",res.data)
             } 
         catch(error)
             {
@@ -72,7 +66,7 @@ function Login(props) {
                      {isLogin?<p className='error_messages'>{isLogin}</p>:''} 
                 </div>
                 <p><button>Quên mật khẩu?</button></p>
-                <ButtonAccess namebtn='ĐĂNG NHẬP' onHandleSubmit ={handleSubmit(onSubmit)}/>
+                <ButtonAccess namebtn='ĐĂNG NHẬP' onHandleSubmit = {handleSubmit(onSubmit)}/>
                 
               </form>
          </div>          

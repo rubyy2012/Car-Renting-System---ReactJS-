@@ -5,23 +5,24 @@ import img from '../../assets/images/Car/car.jpg';
 import { BsPinMap } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 
-function MycarItem(props) {
+function MycarItem({myCar}) {
+    console.log(myCar.id)
     return (
         <div className='mycars__item-layout'>
         <div className="item-box">
             <div className="item-left">
-                <img src={img} alt="" />
+                <img src={myCar.image} alt="" />
             </div>
             <div className="item-right">
-                <h6>BAIC BEIJING U5 PLUS DELUXE 2017</h6>
-                <p>Giá tự lái: <strong>550K</strong></p>
-                <p><BsPinMap className='icon-map'/> Quận Liên Chiểu, Đà Nẵng</p>
+                <h6>{myCar.name}</h6>
+                <p>Giá tự lái: <strong>{myCar.cost}K</strong></p>
+                <p><BsPinMap className='icon-map'/>{myCar.locationDto.address}, {myCar.wardDto.name}, {myCar.districtDto.name}</p>
 
                 <div className="button-box">
-                    <Link to='' className="common view-detail">
+                    <Link to={`/car-information/${myCar.id}`} state={myCar.id} className="common view-detail">
                         XEM CHI TIẾT
                     </Link>
-                    <Link to='/myownCar/infor' className="common manage-car">
+                    <Link to='/myownCar/infor' className="common manage-car"  state = {myCar.id}>
                         QUẢN LÝ XE
                     </Link>
                 </div>

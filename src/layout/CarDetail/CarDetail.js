@@ -5,12 +5,16 @@ import CarCarousel from '../../components/Forms/Carousel/CarCarousel';
 import 'react-bootstrap';
 import './styles.scss';
 import Slider from 'react-slick';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { BiStar } from "react-icons/bi";
-import Avatar from '../../components/Avatar/Avatar';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-function CarDetail({itemCar}) {
+import  request from '../../utils/request';
+import  * as requests from '../../utils/request';
+import { FaStar } from "react-icons/fa";
+import { FcCheckmark } from "react-icons/fc";
+function CarDetail() {
+    const location = useLocation()
+    const id = location.state
     var settings = {
         dots: true,
         infinite: false,
@@ -47,128 +51,219 @@ function CarDetail({itemCar}) {
         ]
       };
 
-      const ListCar = [
-        {
-            Id:1,
-            Name: 'HYUNDAI GRAND I10 SEDAN 2018',
-            type:'Số sàn',
-            Cost: 800,
-            address: 'P.Tân Chính, Q.Thanh Khê',
-            numberStar:4.9
-        },
-        {
-            Id:2,
-            Name: ' TOYOTA COROLLA CROSS G 2020',
-            type:'Số tự động',
-            Cost: 790,
-            address: 'P.Thạc Gián, Q.Thanh Khê',
-            numberStar:4.7,
-            linkImg:'https://n1-pstg.mioto.vn/cho_thue_xe_o_to_tu_lai_thue_xe_du_lich_hochiminh/kia_seltos_premium_2020/p/g/2021/07/13/14/QAt5XvEz-9-DowktC7e5sw.jpg'
-        },
-        {
-            Id:3,
-            Name: ' CHEVROLET SPARK 2018',
-            type:'Số tự động',
-            Cost: 1120,
-            address: 'P.Hòa Khánh Bắc, Q.Liên Chiểu',
-            numberStar:4.8,
-            linkImg:'https://n1-pstg.mioto.vn/cho_thue_xe_o_to_tu_lai_thue_xe_du_lich_hochiminh/kia_seltos_premium_2020/p/g/2021/07/13/14/QAt5XvEz-9-DowktC7e5sw.jpg'
+      
 
-        },
-        {
-            Id:4,
-            Name: ' SUZUKI ERTIGA 2016',
-            type:'Số sàn',
-            Cost: 950,
-            address: 'P.Hòa Cường Bắc, Q.Hải Châu',
-            numberStar:4.9,
-            linkImg:'https://n1-pstg.mioto.vn/cho_thue_xe_o_to_tu_lai_thue_xe_du_lich_hochiminh/kia_seltos_premium_2020/p/g/2021/07/13/14/QAt5XvEz-9-DowktC7e5sw.jpg'
-
-        },
-        {
-            Id:5,
-            Name: 'TOYOTA WIGO 2019',
-            type:'Số sàn',
-            Cost: 1000,
-            address: 'P.Hòa An, Q.Cẩm Lệ',
-            numberStar:4.5,
-            linkImg:'https://n1-pstg.mioto.vn/cho_thue_xe_o_to_tu_lai_thue_xe_du_lich_hochiminh/kia_seltos_premium_2020/p/g/2021/07/13/14/QAt5XvEz-9-DowktC7e5sw.jpg'
-
-        },
-        {
-            Id:6,
-            Name: 'SUZUKI XL7 2020',
-            type:'Số tự động',
-            Cost: 780,
-            address: 'P.An Hải Bắc, Q.Sơn Trà',
-            numberStar:4.8,
-            linkImg:'https://n1-pstg.mioto.vn/cho_thue_xe_o_to_tu_lai_thue_xe_du_lich_hochiminh/kia_seltos_premium_2020/p/g/2021/07/13/14/QAt5XvEz-9-DowktC7e5sw.jpg'
-
-        },
-        {
-            Id:7,
-            Name: 'HONDA BRIO RS 2021',
-            type:'Số sàn',
-            Cost: 840,
-            address: 'P.Bắc Mỹ An, Q.Ngũ Hành Sơn',
-            numberStar:4.9,
-            linkImg:'https://n1-pstg.mioto.vn/cho_thue_xe_o_to_tu_lai_thue_xe_du_lich_hochiminh/kia_seltos_premium_2020/p/g/2021/07/13/14/QAt5XvEz-9-DowktC7e5sw.jpg'
-
-        },
-        {
-            Id:8,
-            Name: 'KIA SOLUTO 2019',
-            type:'Số tự động',
-            Cost: 900,
-            address: 'P.Thọ Quang, Q.Sơn Trà',
-            numberStar:4.8,
-            linkImg:'https://n1-pstg.mioto.vn/cho_thue_xe_o_to_tu_lai_thue_xe_du_lich_hochiminh/kia_seltos_premium_2020/p/g/2021/07/13/14/QAt5XvEz-9-DowktC7e5sw.jpg'
-
-        },
-    ]
-
-
-    //handle Load more Comment
-    const [limit, setLimit] = useState(4)
+    const [car,setCar] = useState()
+    const [start, setStart] = useState(1)
     const [listComments,setListComments] = useState([]);
-    useEffect(()=>{
-        const url = 'https://6370fed40399d1995d888ffe.mockapi.io/api/Auth/comments?page=1&limit=' + limit;
-           axios.get(url)
-            .then((res)=>{
-                if(res.status === 200)
-                {
-                    setListComments([...res.data]);
-                    console.log(...listComments);
-                }
-                else {
-                    console.log('something error');
-                }              
-            })
-    },[limit]);
+    const [listCars,setListCar] = useState([])
+    const [districts, setDistricts] = useState([])
+    const [wards,setWards] = useState([])
+    const [idDistrict,setIdDistrict] = useState('490')
+    const [idWard,setIdWard] = useState('')
+    const [street,setStreet] = useState('')
+    const [startDate,setStartDate] = useState('')
+    const [endDate,setEndDate] = useState('')
     const handleLoadMore = () => 
     {
-       setLimit(limit+4)
+        setStart(start+1)
     }
 
+    useEffect(()=>{
+        //GET LIST CAR
+        const getlistCars = async() => 
+        {
+            try
+            {
+                const res = await request.get('Car/carsActive')
+                setListCar(res.data)
+            }
+            catch(error)
+            {
+                console.log('cars:something error',error)
+            }
+        }
+        getlistCars()
+
+        //GET INFOR CAR THEO ID
+        const getCar = async () => {
+            try 
+            {
+                console.log()
+                const url = `https://rentalcarapi2022.azurewebsites.net/api/Car/${id}`;
+                const res = await request.get(url)
+                setCar(res.data)
+            }
+            catch(error)
+            {
+                console.log("Something error in get Car!")
+            }
+        }
+        getCar()
+    },[id])
+
+    useEffect(()=>{
+        const getComments = async () => 
+        {
+            try 
+            {
+                const res = await request.get(`carreview/${id}/${start}`)
+                      const newData = res.data
+                      setListComments([...listComments,...newData])
+            }
+            catch(error)
+            {
+                console.log('something error in get comments!')
+            }
+        }
+        getComments()
+    },[start]);
+
+    const [date,setDate] = useState({
+        RentDate:'',
+        ReturnDate: ''
+    })
+    const [dataSend,setDataSend] = useState({
+        RentDate: startDate||'',
+        ReturnDate: endDate||'',
+        Address: street||'',
+        WardId: idWard||''
+    })
+    const handleStartDate = (e) => {
+        setStartDate(e.target.value)
+        setDate({...date,[e.target.name]:e.target.value})
+        setDataSend({...dataSend,[e.target.name]:e.target.value})
+        console.log(e.target.value)
+    }
+
+    const handleEndDate = (e) => {
+        setEndDate(e.target.value)
+        setDate({...date,[e.target.name]:e.target.value})
+        setDataSend({...dataSend,[e.target.name]:e.target.value})
+        console.log(e.target.value)
+    }
+    const handleChangeStreet = (e) => {
+        setStreet(e.target.value)
+        setDataSend({...dataSend,[e.target.name]:e.target.value})
+        console.log(e.target.value)
+    }
+    const handleChangeDistrict = (e) => {
+        const getIdDistrict = e.target.value
+        setIdDistrict(getIdDistrict)
+        // setDataSend({...dataSend,[e.target.name]:e.target.value})
+        console.log(e.target.value)
+    }
+    const handleChangeWard = (e) => {
+        const getIdWard = e.target.value
+        setIdWard(getIdWard)
+        setDataSend({...dataSend,[e.target.name]:e.target.value})
+        console.log(e.target.value)
+    }
+
+
+
+    //------------------HANDLE API-------------------------------
+     //getAPI location
+     useEffect(()=>{
+ 
+        const getDistrict = async () => {
+            try {
+                const res = await request.get('District')
+                setDistricts(res.data)
+                setIdDistrict(res.data[0].id)
+            }
+
+            catch(error)
+            {
+                console.log('districts:something error')
+            }  
+        }
+        getDistrict()},[])
+
+       useEffect(()=>{
+            const getWards = async() => 
+            {
+                try
+                {
+                    const res = await request.get(`District/${idDistrict}`)
+                    setWards(res.data)
+                }
+                catch(error)
+                {
+                    console.log('wards:something error',error)
+                }   
+            }
+            getWards()     
+        },[idDistrict])
+
+     //get total Price
+
+ 
+        const [prices,setPrices] = useState(0)
+        useEffect(()=>{
+            const getPrice = async() => 
+            {
+                try
+                {
+                    let newObj = {}
+                    for(let key in date){
+                    console.log(date[key]);
+                    if(date[key]!=='')
+                        {
+                            newObj[key]=date[key]
+                        } 
+                    }
+                    console.log('date',date)
+                    const res = await request.get(`Car/${id}/PriceAverage`,{params:date})
+                    setPrices(res.data)
+                    console.log(res.data)
+                }
+                catch(error)
+                {
+                    console.log('get total Price:something error',error)
+                }   
+            }
+            getPrice()     
+        },[endDate])
+
+
+        //Booking xe
+
+        const handleBooking = async (e) => {
+            e.preventDefault()
+            try
+                {
+                    console.log('click')
+                    // console.log(dataSend)
+                    const res = await requests.postWithFormData(`Car/${id}/Booking`,dataSend)
+                    console.log(res)
+                }
+                catch(error)
+                {
+                    console.log('handle booking:something error',error)
+                }   
+        }
+
+        const startDefault = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+        const endDefault = new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0];
+    if(car && listCars)
     return (
         <div id ='main'>
              <div className=" container wrapper">
                  <div className=" main__wrapper">
                  <div className="car__detail-banner">
                      <div className="car__banner-wrapper">
-                        <img src={avatar} alt="abc" />
+                      {car.carImageDtos? <img src={car.carImageDtos[0].path} alt="abc" />:''}
                      </div>
                  </div>
                     <div className="infor__car-desc">
-
                       <div className="content-detail">
                       <div className="car__banner-wrapper">              
                       </div>
                         <div className="infor-car">
-                            {/* <h2>MITSUBISHI ATTRAGE 2020</h2> */}
-                            <h2>{itemCar.Name}</h2>
-                                    <p className='ratings'>{itemCar.numberStar} <BiStar className='rating-star'/></p>
-                                    <p  className='typeCar'>{itemCar.type}</p>
+                            <h2>{ car.name}</h2>
+                                    <p className='ratings'>{car.numberStar} <BiStar className='rating-star'/></p>
+                                    <p  className='typeCar'>{car.transmissionDto.name}</p>
                             </div>
                       </div>
 
@@ -177,160 +272,82 @@ function CarDetail({itemCar}) {
                         <form action=''>
                             <div className="price">
                                 <h3>
-                                    {itemCar.Cost}K
+                                    {car.cost}K
                                     <span>/ngày</span>
                                 </h3>
                             </div>
                             <div className="line-form has-timer">
                                 <label htmlFor="">Ngày nhận xe</label>
                                 <div className="wrap-input has-dropdown date">
-                                    <input type="date"/>
-                                </div>
-                                <div className="wrap-input has-dropdown time wrap-select">
-                                    <select name="" id="">
-                                        <option value="">00:00</option>
-                                        <option value="">00:30</option>
-                                        <option value="">01:00</option>
-                                        <option value="">01:30</option>
-                                        <option value="">02:00</option>
-                                        <option value="">02:30</option>
-                                        <option value="">03:00</option>
-                                        <option value="">03:30</option>
-                                        <option value="">04:00</option>
-                                        <option value="">04:30</option>
-                                        <option value="">05:00</option>
-                                        <option value="">05:30</option>
-                                        <option value="">06:00</option>
-                                        <option value="">06:30</option>
-                                        <option value="">07:00</option>
-                                        <option value="">07:30</option>
-                                        <option value="">08:00</option>
-                                        <option value="">08:30</option>
-                                        <option value="">09:00</option>
-                                        <option value="">09:30</option>
-                                        <option value="">10:00</option>
-                                        <option value="">10:30</option>
-                                        <option value="">11:00</option>
-                                        <option value="">11:30</option>
-                                        <option value="">12:00</option>
-                                        <option value="">12:30</option>
-                                        <option value="">13:00</option>
-                                        <option value="">13:30</option>
-                                        <option value="">14:00</option>
-                                        <option value="">14:30</option>                               
-                                        <option value="">15:00</option>
-                                        <option value="">15:30</option>
-                                        <option value="">16:00</option>
-                                        <option value="">16:30</option>
-                                        <option value="">17:00</option>
-                                        <option value="">17:30</option>
-                                        <option value="">18:00</option>
-                                        <option value="">18:30</option>
-                                        <option value="">19:00</option>
-                                        <option value="">19:30</option>
-                                        <option value="">20:00</option>
-                                        <option value="">20:30</option>
-                                        <option value="">21:00</option>
-                                        <option value="">21:30</option>
-                                        <option value="">22:00</option>
-                                        <option value="">22:30</option>
-                                        <option value="">23:00</option>
-                                        <option value="">23:30</option>
-                                    </select>
+                                    <input 
+                                        type="date"
+                                        name='RentDate'
+                                        onChange={e=>handleStartDate(e)}
+                                        value = {startDate||startDefault}
+                                        min={new Date().toISOString().split('T')[0]}
+                                        />
                                 </div>
                             </div>
                             
                             <div className="line-form has-timer">
                                 <label htmlFor="">Ngày trả xe</label>
                                 <div className="wrap-input has-dropdown date">
-                                    <input type="date"/>
+                                    <input 
+                                        type="date"
+                                        name='ReturnDate'
+                                        onChange={e=>handleEndDate(e)}
+                                        value = {endDate||endDefault}
+                                        min={startDate}
+                                        />
                                 </div>
-                                <div className="wrap-input has-dropdown time wrap-select">
-                                    <select name="" id="">
-                                        <option value="">00:00</option>
-                                        <option value="">00:30</option>
-                                        <option value="">01:00</option>
-                                        <option value="">01:30</option>
-                                        <option value="">02:00</option>
-                                        <option value="">02:30</option>
-                                        <option value="">03:00</option>
-                                        <option value="">03:30</option>
-                                        <option value="">04:00</option>
-                                        <option value="">04:30</option>
-                                        <option value="">05:00</option>
-                                        <option value="">05:30</option>
-                                        <option value="">06:00</option>
-                                        <option value="">06:30</option>
-                                        <option value="">07:00</option>
-                                        <option value="">07:30</option>
-                                        <option value="">08:00</option>
-                                        <option value="">08:30</option>
-                                        <option value="">09:00</option>
-                                        <option value="">09:30</option>
-                                        <option value="">10:00</option>
-                                        <option value="">10:30</option>
-                                        <option value="">11:00</option>
-                                        <option value="">11:30</option>
-                                        <option value="">12:00</option>
-                                        <option value="">12:30</option>
-                                        <option value="">13:00</option>
-                                        <option value="">13:30</option>
-                                        <option value="">14:00</option>
-                                        <option value="">14:30</option>                               
-                                        <option value="">15:00</option>
-                                        <option value="">15:30</option>
-                                        <option value="">16:00</option>
-                                        <option value="">16:30</option>
-                                        <option value="">17:00</option>
-                                        <option value="">17:30</option>
-                                        <option value="">18:00</option>
-                                        <option value="">18:30</option>
-                                        <option value="">19:00</option>
-                                        <option value="">19:30</option>
-                                        <option value="">20:00</option>
-                                        <option value="">20:30</option>
-                                        <option value="">21:00</option>
-                                        <option value="">21:30</option>
-                                        <option value="">22:00</option>
-                                        <option value="">22:30</option>
-                                        <option value="">23:00</option>
-                                        <option value="">23:30</option>
+                            </div>
+                            <p className='status-valid'>
+                               <FcCheckmark/> {prices.schedule} 
+                            </p>
+                            <p className='location-transaction'>Địa điểm giao nhận xe</p>
+                            <div className="line-form has-timer">
+                                <label htmlFor="">Quận</label>
+                                <div className="wrap-input has-dropdown date">
+                                    <select
+                                        className='choose-location-infor'
+                                        onChange={e=>handleChangeDistrict(e)} 
+                                        value={idDistrict||''}>
+                                        {
+                                            districts.map((district)=>(
+                                                <option value={district.id} 
+                                                        key={district.id}>
+                                                        {district.name}
+                                                </option>
+                                            ))
+                                        }
                                     </select>
                                 </div>
                             </div>
-                            
-                            <span className='select-timer-error'>Xe bận trong khoảng thời gian trên. Vui lòng đặt xe khác hoặc thay đổi lịch trình thích hợp.</span>
-                            {/* <div className='line-form local'>
-                                <label htmlFor="">Địa điểm giao nhận xe</label>
-                                <div className='pick__up-car'>
-                                    <div className='pick-up'>
-                                        <BiMap className='map__icon'/>
-                                        <input type="text" />
-                                    </div>
-                                </div>
-                            </div> */}
 
-                            <div className='line-form local'>
-                                <label htmlFor="">Phụ phí</label>
-                                <div className='box-extra-fee'>
-                                    <div className='over-time'>
-                                        <span>Quá giờ</span>
-                                    </div>
-                                    <p className='note-fee'>Phí: 90 000đ/giờ. Quá 5 giờ tính bằng giá thuê 1 ngày</p>
+                            <div className="line-form has-timer">
+                                <label htmlFor="">Phường</label>
+                                <div className="wrap-input has-dropdown date">
+                                    <select
+                                        className='choose-location-infor'
+                                        name='WardId' 
+                                        value = {idWard||''}
+                                        onChange={e=>handleChangeWard(e)}>
+                                        {wards.map((ward) => (
+                                        <option key={ward.id} value={ward.id}>{ward.name}</option>
+                                     ))}
+                                    </select>
                                 </div>
+                            </div>
 
-                                <div className='box-extra-fee'>
-                                    <div className='over-time'>
-                                        <span>Vệ sinh xe</span>
-                                    </div>
-                                    <p className='note-fee'>Phí: 100 000đ (nếu trả xe nhiều vết bẩn, bùn cát, sình lầy.... cần phải vệ sinh lại trước khi giao cho khách sau)</p>
-                                </div>
-
-                                <div className='box-extra-fee'>
-                                    <div className='over-time'>
-                                        <span>Khử mùi xe</span>
-                                    </div>
-                                    <p className='note-fee'>Phí: 400 000đ (nếu hút thuốc lá trong xe, chở sầu riêng, hải sản nặng mùi .... cần phải đi khử mùi trước khi giao cho khách sau)</p>
+                            <div className="line-form has-timer">
+                                <label htmlFor="">Đường</label>
+                                <div className="wrap-input has-dropdown date">
+                                    <input type="text"
+                                           className='choose-location-infor'
+                                           name='Address'
+                                           value= {street||''}
+                                           onChange={e=>handleChangeStreet(e)}
+                                    />
                                 </div>
                             </div>
 
@@ -340,41 +357,34 @@ function CarDetail({itemCar}) {
                                     <div className="group">
                                         <p className=''>Đơn giá thuê</p>
                                         <span>
-                                            <span>1 200 000/ngày</span>
+                                            {prices?<span>{prices.priceAverage} K/ngày</span>:''}
                                         </span>
                                     </div>
 
-                                    <div className="group">
-                                        <p className=''>Phí dịch vụ</p>
+                                    <div className="group has-line">
+                                        <p className=''>Phí giao nhận xe</p>
                                         <span>
-                                            <span>102 000/ngày</span>
-                                        </span>
-                                    </div>
-
-                                    <div className="group">
-                                        <p className=''>Phí bảo hiểm</p>
-                                        <span>
-                                            <span>102 000/ngày</span>
+                                            <span>Miễn phí</span>
                                         </span>
                                     </div>
 
                                     <div className="group has-line">
                                         <p className=''>Tổng phí thuê xe</p>
                                         <span>
-                                            <span>1 404 000</span> x <strong>1 ngày</strong>
+                                            <span>{prices.priceAverage}K</span> x <strong>{prices.day} ngày</strong>
                                         </span>
                                     </div>
 
                                     <div className="group has-line">
                                         <p className=''><strong>Tổng cộng</strong></p>
                                         <span>
-                                            <strong><span>1 404 000đ</span></strong>
+                                            <strong><span>{prices.total} K</span></strong>
                                         </span>
                                     </div>
                                     <div className="space-m">
 
                                     </div>
-                                    <ButtonAccess namebtn='ĐẶT XE'/>
+                                    <ButtonAccess namebtn='ĐẶT XE' onHandleSubmit={e=>handleBooking(e)}/>
                                 </div>
                             </div>
 
@@ -390,10 +400,10 @@ function CarDetail({itemCar}) {
                                 </span>
                                 <div className="ctn-desc-new">
                                     <ul className="features">
-                                        <li>Số ghế: 4</li>
-                                        <li>Truyền động: Số tự động</li>
-                                        <li>Nhiên liệu: Xăng</li>
-                                        <li>Mức tiêu thụ nhiên liệu: 4l/100km</li>
+                                        <li>Số ghế: {car.capacity}</li>
+                                        <li>Truyền động: {car.transmissionDto.name}</li>
+                                        <li>Nhiên liệu: {car.fuelTypeDto.name}</li>
+                                        <li>Mức tiêu thụ nhiên liệu: {car.fuelConsumption} lít/100km</li>
                                     </ul>
                                 </div>
                             </div>
@@ -404,12 +414,8 @@ function CarDetail({itemCar}) {
                                 </span>
                                 <div className="ctn-desc-new">
                                   <p>  
-                                        Attrage 2020 số tự động gia đình đi ít.
-                                        Nội thất da đẹp, sạch sẽ, bảo dưỡng định kỳ thường xuyên,
-                                        Xe rộng rãi nhất phân khúc, tiện nghi.
-                                        Xe trang bị, camera lùi, camera hành trình, camera cập lề..
-                                        Màn hình giải trí thông minh...
-                                        Chi phí quá giờ trả xe: 100.000₫/giờ, sau 4h tính chi phí 1 ngày thuê.
+                                      {/* MÔ TẢ */}
+                                     {car.description}
                                   </p>
                                 </div>
                             </div>
@@ -432,13 +438,7 @@ function CarDetail({itemCar}) {
                                 </span>
                                 <div className="ctn-desc-new">
                                    <p>
-                                        Quý khách lưu ý một số qui định sau:
-                                        Không sử dụng xe thuê vào mục đích phi pháp, trái pháp luật
-                                        Không được sử dụng xe thuê để cầm cố hay thế chấp, sử dụng đúng mục đích
-                                        Không hút thuốc,ăn kẹo cao su xả rác trong xe
-                                        Không chở hàng quốc cấm dễ cháy nổ,hoa quả thưc phẩm lưu mùi trong xe.
-                                        Khi trả xe, khách hàng vui lòng vệ sinh sạch sẽ hoặc gửi phụ thu thêm phí rửa xe, hút bụi nếu xe dơ. (sẽ thu nhiều hơn tuỳ theo mức độ dơ) 
-                                        Trân trọng cảm ơn, chúc quý khách có những chuyến đi tuyệt vời!
+                                        {car.rule}
                                    </p>
                                 </div>
                             </div>
@@ -449,14 +449,15 @@ function CarDetail({itemCar}) {
                                 </span>
                                 <div className="profile-mini">
                                    <div className="fix-avatar">
-                                        <Link to ="">
-                                            <img src={avatar} alt="" />
+                                        <Link to ="/profile-user"  state = {car.account.id}>
+                                            <img src={car.profileImage} alt="" />
                                         </Link>
                                    </div>
                                    <div className="desc align-center-desc">
-                                        <Link to ="">
-                                            <h2>Hồng Ngọc</h2>
-                                            <span className='ratings'>{itemCar.numberStar} <BiStar className='rating-star'/></span>
+                                        {/* <Link to ="profile-user" state ={car.account.id}> */}
+                                        <Link to ="/profile-user" state = {car.account.id}>
+                                            <h2>{car.account.fullname}</h2>
+                                            <span className='ratings'>{car.numberStar} <BiStar className='rating-star'/></span>
                                         </Link>
                                    </div>
                                 </div>
@@ -465,96 +466,33 @@ function CarDetail({itemCar}) {
                             <div className="infor__car-desc">
                             <div className="review">
                                 <h4 className="title">ĐÁNH GIÁ</h4>
-                                {
+                               {/* LIST COMmENT */}
+                               {
                                     listComments.map((item,index)=>(
                                         <div className="list-comments" key={index}>
                                     <div className="left">
-                                        {/* <div className="fix-avatar"> */}
-                                            <Link to ="">
-                                            {/* <img src={avatar} alt="" /> */}
-                                            <Avatar/>
+                                        <div className="fix-avatar">
+                                            <Link to ="/profile-user" state={item.accountDto.id}>
+                                            <img src={item.accountDto.profileImage} alt="" />
                                             </Link>
+                                        </div>
                                     </div>
                                     <div className="right">
-                                        <Link to ="">
-                                            <h4>{item.name}</h4>
+                                        <Link to ="/profile-user" state={item.accountDto.id}>
+                                            <h4>{item.accountDto.fullname}</h4>
                                         </Link>
                                         <div className="cmt-box">
                                             <div className="group">
-                                                {item.ratingStar}
+                                                {item.rating} <FaStar className='star'/> 
                                             </div>
                                             <p className="desc">
-                                            {item.comment}
+                                            {item.content}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                     ))
                                 }
-                               
-
-                                {/* <div className="list-comments">
-                                    <div className="left">
-                                       <Link to ="">
-                                            <Avatar/>
-                                        </Link>
-                                    </div>
-                                    <div className="right">
-                                        <Link to ="">
-                                            <h4>Hong Ngoc</h4>
-                                        </Link>
-                                        <div className="cmt-box">
-                                            <div className="group">
-                                                Star-rating
-                                            </div>
-                                            <p className="desc">
-                                            Rất tốt. Xe tốt. Chủ xe thân thiện, hợp tác với khách thuê tốt!
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="list-comments">
-                                    <div className="left">
-                                       <Link to ="">
-                                            <Avatar/>
-                                        </Link>
-                                    </div>
-                                    <div className="right">
-                                        <Link to ="">
-                                            <h4>Hong Ngoc</h4>
-                                        </Link>
-                                        <div className="cmt-box">
-                                            <div className="group">
-                                                Star-rating
-                                            </div>
-                                            <p className="desc">
-                                            Rất tốt. Xe tốt. Chủ xe thân thiện, hợp tác với khách thuê tốt!
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="list-comments">
-                                    <div className="left">
-                                       <Link to ="">
-                                            <Avatar/>
-                                        </Link>
-                                    </div>
-                                    <div className="right">
-                                        <Link to ="">
-                                            <h4>Hong Ngoc</h4>
-                                        </Link>
-                                        <div className="cmt-box">
-                                            <div className="group">
-                                                Star-rating
-                                            </div>
-                                            <p className="desc">
-                                            Rất tốt. Xe tốt. Chủ xe thân thiện, hợp tác với khách thuê tốt!
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div> */}
                                 <button className='btn-loadmore' onClick={handleLoadMore}>Load More</button>
                             </div>
                         </div>
@@ -567,7 +505,7 @@ function CarDetail({itemCar}) {
                         <div id='carousel_car'>
                             <Slider {...settings}>
                             {
-                                ListCar.map((item,index)=>(
+                                listCars.map((item,index)=>(
                                     <CarCarousel itemCar={item} key={index}/>
                                 ))
                             }

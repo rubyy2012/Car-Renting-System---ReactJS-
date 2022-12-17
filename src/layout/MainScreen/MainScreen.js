@@ -12,7 +12,7 @@ import CarCarousel from '../../components/Forms/Carousel/CarCarousel';
 import FormSearching from '../../components/Searching/FormSearching';
 import InstructionData from '../../middlewares/instruction-data';
 import Slider from 'react-slick';
-import axios from 'axios';
+import * as request from '../../utils/request';
 
 function MainScreen() {
     var settings = {
@@ -44,142 +44,25 @@ function MainScreen() {
         ]
       };
 
-      const ListCar = [
-        {
-            Id:1,
-            Name: 'HYUNDAI GRAND I10 SEDAN 2018',
-            type:'Số sàn',
-            Cost: 800,
-            address: 'P.Tân Chính, Q.Thanh Khê',
-            numberStar:4.9
-        },
-        {
-            Id:2,
-            Name: ' TOYOTA COROLLA CROSS G 2020',
-            type:'Số tự động',
-            Cost: 790,
-            address: 'P.Thạc Gián, Q.Thanh Khê',
-            numberStar:4.7
-        },
-        {
-            Id:3,
-            Name: ' CHEVROLET SPARK 2018',
-            type:'Số tự động',
-            Cost: 1120,
-            address: 'P.Hòa Khánh Bắc, Q.Liên Chiểu',
-            numberStar:4.8
-        },
-        {
-            Id:4,
-            Name: ' SUZUKI ERTIGA 2016',
-            type:'Số sàn',
-            Cost: 950,
-            address: 'P.Hòa Cường Bắc, Q.Hải Châu',
-            numberStar:4.9
-        },
-        {
-            Id:5,
-            Name: 'TOYOTA WIGO 2019',
-            type:'Số sàn',
-            Cost: 1000,
-            address: 'P.Hòa An, Q.Cẩm Lệ',
-            numberStar:4.5
-        },
-        {
-            Id:6,
-            Name: 'SUZUKI XL7 2020',
-            type:'Số tự động',
-            Cost: 780,
-            address: 'P.An Hải Bắc, Q.Sơn Trà',
-            numberStar:4.8
-        },
-        {
-            Id:7,
-            Name: 'HONDA BRIO RS 2021',
-            type:'Số sàn',
-            Cost: 840,
-            address: 'P.Bắc Mỹ An, Q.Ngũ Hành Sơn',
-            numberStar:4.9
-        },
-        {
-            Id:8,
-            Name: 'KIA SOLUTO 2019',
-            type:'Số tự động',
-            Cost: 900,
-            address: 'P.Thọ Quang, Q.Sơn Trà',
-            numberStar:4.8
-        },
-    ]
-
-    const [districts, setDistricts] = useState([])
-    const [idDistrict,setIdDistrict] = useState('')
-    const [wards,setWards] = useState([
-        {
-          "id": 1,
-          "name": "Phường Hòa Hiệp Bắc"
-        },
-        {
-          "id": 2,
-          "name": "Phường Hòa Hiệp Nam"
-        },
-        {
-          "id": 3,
-          "name": "Phường Hòa Khánh Bắc"
-        },
-        {
-          "id": 4,
-          "name": "Phường Hòa Khánh Nam"
-        },
-        {
-          "id": 5,
-          "name": "Phường Hòa Minh"
-        }
-      ])
-
-    const handleChangeDistrict = (e) => {
-        const getIdDistrict = e.target.value
-        setIdDistrict(getIdDistrict)
-        console.log(idDistrict)
-    }
-
-    useEffect(()=>{
- 
-        const getDistrict = async () => {
-            try {
-                axios.get('https://rentalcarpbl6api.azurewebsites.net/api/District')
-                .then(res=>{
-                    setDistricts(res.data)
-                    console.log(res.data)
-                })
-            }
-            catch(error)
-            {
-                console.log('districts:something error')
-            }  
-        }
-        getDistrict()},[])
-
-    useEffect(()=>{
-            const getWards = async() => 
+    const [listCar,setListCar] = useState([])
+       useEffect(()=>{
+        const getlistCars = async() => 
             {
                 try
                 {
-                    await axios.get(`https://rentalcarpbl6api.azurewebsites.net/api/District/${idDistrict}`)
-                    .then( res=>{
-                        setWards(res.data)
-                        console.log(wards)
-                    })
+                    const res = await request.get('Car/carsActive')
+                    setListCar(res)
                 }
                 catch(error)
                 {
-                    console.log('wards:something error',error)
+                    console.log('cars:something error',error)
                 }
                 
             }
-            getWards()
-        },[idDistrict])
+        getlistCars()
+        },[])
+    if(listCar)
     return (
-
        <div id='main' className=''>
        <div className="wrapper">
         <div className=" main__wrapper">
@@ -187,7 +70,7 @@ function MainScreen() {
                 <div className="wrapper__title">
                     <h1>MIOTO - CÙNG BẠN TRÊN MỌI HÀNH TRÌNH</h1>
                 </div>
-                <FormSearching districts = {districts} handleChangeDistrict={handleChangeDistrict} wards={wards}/>
+                <FormSearching/>
              </div>
 
              <div className="container wrapper__features">
@@ -212,8 +95,8 @@ function MainScreen() {
 
                 <div id='carousel_car'>
                     <Slider {...settings}>
-                    {ListCar.map((item,index) =>(
-                         <CarCarousel key={index} itemCar={item} listCar={ListCar}/>
+                    {listCar.map((item,index) =>(
+                         <CarCarousel key={index} itemCar={item}/>
                          ))}
                     </Slider>
                 </div>

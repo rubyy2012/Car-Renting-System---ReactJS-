@@ -6,21 +6,64 @@ import car from '../../assets/images/Car/car.jpg';
 import {CiEdit} from  "react-icons/ci";
 import { FaCameraRetro } from "react-icons/fa";
 import { AiOutlineCalendar, AiOutlineIdcard } from "react-icons/ai";
-import { Link, Outlet} from "react-router-dom";
-import BasicInfor from "../../components/BasicInforRegistedCar/BasicInfor";
+import { Link, Outlet, useLocation} from "react-router-dom";
+import { useState } from "react";
+import * as request from "../../utils/request";
+import { useEffect } from "react";
 function UpdateCarLayout() {
+
+    const location = useLocation()
+    const id = location.state
+    console.log(id)
+
+    const [dataCar,setDataCar] = useState({
+        id:'',
+        name:'',
+        status:'',
+        plate_number:'1',
+        location:'1',
+        capacity:4,
+        transmission:'',
+        fuelType:'',
+        carImages:[{}],
+        districtId:490,
+        //variable put method
+        wardId:'1',
+        address:'',
+        fuelConsumption:10,
+        description:'',
+        cost:'',
+
+    })
+
+    useEffect(()=>{
+        const getCar = async () => {
+            try 
+            {     
+                const url = `Car/${id}/CarInfor`
+                const res = await request.getWithToken(url)
+                setDataCar(res)
+            }
+            catch(error)
+            {
+                console.log("error in get carInfor",error)
+            }
+        }
+        getCar()
+    },[])
+    if(dataCar)
     return (
          <div className="full__wrapper">
              <Header/>
             <NavBarOwner/>
             <div className="car__header-infor">
                 <div className="car__infor-wrapper">
-                    <img className="car-img" src={car} alt='error'/>
+                   <img src={dataCar.carImages[0].path} alt="" className="car-img"/>
                     <div className="infor">
                         <p>Dòng xe</p>
-                        <h2>BAIC BEIJING U5 PLUS DELUXE 2017</h2>
+                        <h2>{dataCar.name||''}</h2>
                         <p className="second-child">Chưa có chuyến</p>
-                        <p>Đã bị từ chối</p>
+                        <p>{dataCar.status.name||''}</p>
                     </div>
                 </div>
             </div>
@@ -32,13 +75,23 @@ function UpdateCarLayout() {
                            <CiEdit className="icon"/>
                             <span>Thông tin</span>
                         </Link>
-                        <Link to='updateImage' >
+                        <Link to='updateImage' state={id}>
                            <FaCameraRetro className="icon"/>
                             <span>Hình ảnh</span>
                         </Link>
-                        <Link to='license' >
+                        <Link to='licenseCavet' state={id} >
                            <AiOutlineIdcard className="icon"/>
-                            <span>Giấy tờ xe</span>
+                            <span>Cavet</span>
+                        </Link>
+
+                        <Link to='licenseRegistry' state={id} >
+                           <AiOutlineIdcard className="icon"/>
+                            <span>Đăng kiểm</span>
+                        </Link>
+
+                        <Link to='licenseAssuarance' state={id} >
+                           <AiOutlineIdcard className="icon"/>
+                            <span>Bảo hiểm xe</span>
                         </Link>
                         <Link to='' >
                            <AiOutlineCalendar className="icon"/>
@@ -47,7 +100,6 @@ function UpdateCarLayout() {
                     </div>
                 </div>
                 <div className="main__content">
-                    {/* <BasicInfor/> */}
                     <Outlet/>
                 </div>
             </div>

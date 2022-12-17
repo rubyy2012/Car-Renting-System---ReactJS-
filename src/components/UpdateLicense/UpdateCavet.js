@@ -1,9 +1,13 @@
 import './styles.scss';
 import React, { useEffect } from 'react';
+import BaseFormImage from '../BaseFolder/BaseFormImage';
+import ButtonAccess from '../Forms/ButtonAccess/ButtonAccess';
 import * as request from '../../utils/request';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
-function UpdateImageCar() {
+
+
+function UpdateLicense() {
     const location = useLocation()
     const idCar = location.state
     console.log(idCar)
@@ -26,21 +30,21 @@ function UpdateImageCar() {
          {
              for(let i = 0; i<images.length;i++)
              {
-                 formData.append('listImage',images[i]);
+                 formData.append('images',images[i]);
              }
          }
 
         //HANDLE API
 
-        const [imagesCar,setImagesCars] = useState()
+        const [imagesCavet,setImagesCavet] = useState()
         
 
-            const handleSubmitImagesCar = async () => {
+            const handleSubmitCavet = async () => {
                 try
                 {
                     console.log('click')
-                    const res = await request.postWithFormData(`Car/${idCar}/CarImage`,formData)
-                    setImagesCars(res)
+                    const res = await request.postWithFormData(`Car/${idCar}/CarImageType/1`,formData)
+                    setImagesCavet(res)
                     window.location.reload()
                     console.log(res)
                 }
@@ -52,12 +56,12 @@ function UpdateImageCar() {
 
             // GET DATA FROM API
             useEffect(()=>{
-                const getImagesCar= async() => 
+                const getImagesCavet= async() => 
                 {
                    try
                     {
-                        const res = await request.getWithToken(`Car/${idCar}/CarImage`)
-                        setImagesCars(res)
+                        const res = await request.getWithToken(`Car/${idCar}/CarImageType/1`)
+                        setImagesCavet(res)
                         // console.log(res)
                     }
                     catch(error)
@@ -65,11 +69,11 @@ function UpdateImageCar() {
                         console.log('errors in get images cavet',error)
                     } 
                 }
-                getImagesCar()
+                getImagesCavet()
              },[])
 
-          console.log(imagesCar)
-if(imagesCar)
+          console.log(imagesCavet)
+if(imagesCavet)
     return (
         <>
         <div className='type__license-container'>
@@ -107,7 +111,7 @@ if(imagesCar)
                             </ul>
                             <ul className='photo__box'>
                             {
-                                imagesCar.map(item=>(
+                                imagesCavet.map(item=>(
                                     <li className='img-boxitem' key={item.id}>
                                         <img src={item.path}  alt="" className='obj-photo photo-avatar'/>
                                     </li>
@@ -115,11 +119,11 @@ if(imagesCar)
                             }
                             </ul>
                         </div>
-            <button className='btn-send' onClick={handleSubmitImagesCar}>Cập nhật</button>
+            <button className='btn-send' onClick={handleSubmitCavet}>Cập nhật</button>
         </div>
         </>
        
     );
 }
 
-export default UpdateImageCar;
+export default UpdateLicense;

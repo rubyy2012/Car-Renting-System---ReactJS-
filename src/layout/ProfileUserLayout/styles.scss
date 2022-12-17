@@ -1,0 +1,210 @@
+.profile_user
+{
+    width:100%;
+    .body__profile
+    { 
+        width:100%;
+        height: 1000px;
+        .profile__main
+        {
+            background-color: #e8eaef;
+            padding: 50px 120px;
+        }
+    }
+   
+}
+
+.title__user
+    {
+        width:100%;
+        display:flex;
+        .user__avatar-wrapper
+        {
+            width:30%;
+            display:flex;
+            justify-content: center;
+            position:relative;
+            .user-avatar-box
+            {
+                position:absolute;
+                width: 100%;
+                transform:translateY(-50%);
+                display: flex;
+                justify-content: center;
+                .img_avt
+                {
+                    //transform: translateX(50%);
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 50%;
+                }
+            }
+           
+        }
+        .user__snippet
+        {
+            width: 70%;
+            padding: 20px;
+        }
+}
+
+.content__user
+{
+    margin-top: 20px;
+    width:100%;
+    background-color: #fff;
+    border-radius: 3px;
+    .content__user-wrapper
+    {
+        padding: 20px 40px;
+        display:flex;
+        justify-content: space-around;
+        .infor-item
+        {
+           width:30%;
+           text-align: center;
+           .text-label
+           {
+            font-weight: 800;
+           }
+           .status
+           {
+            margin-bottom: 0;
+            .status-ok {
+                margin-right:2px;
+                font-size:1.4rem;
+            }
+           }
+        }
+    }
+}
+
+
+.body__wrapper
+    {
+      .comments__container
+        {
+            border-radius: 3px;
+            padding: 30px 40px;
+            margin-top:30px;
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            .comments-layout
+            {
+                .role-comment
+                {
+                    font-weight:700;
+                }
+                .review-box
+                { 
+                    font-weight:500;
+                    display:flex;
+                    position: relative;
+                    .star-box
+                    {
+                        color:rgb(189, 2, 2);   
+                        .star
+                        {
+                            font-size:1.2rem;
+                            margin-left:2px;
+                            margin-bottom: 6px;
+                        }
+                    }
+                    .line
+                    {
+                        display: block;
+                        border-bottom: 2px solid rgb(0, 0, 0);
+                        width: 150px;
+                        position:absolute;
+                        top:50%;
+                        margin-left: 70px;
+                        transform: translateY(-50%);
+                        -webkit-transform: translateY(-50%);
+                        -moz-transform: translateY(-50%);
+                        -ms-transform: translateY(-50%);
+                        -o-transform: translateY(-50%);
+                    }
+                    .number-trips
+                    {
+                        font-weight:500;
+                        margin-left: 200px;
+                    }
+                }
+                .comment-layout
+                {
+                    margin-top:10px;
+                    border-top: 1px solid #ccc;
+                    padding: 10px;
+                    .comment__wrapper
+                    {
+                        margin: 20px 0;
+                        display:flex;
+                        .img-box
+                        {
+                            width:8%;
+                            img
+                            {
+                                width:100%;
+                                border-radius: 50%;
+                                -webkit-border-radius: 50%;
+                                -moz-border-radius: 50%;
+                                -ms-border-radius: 50%;
+                                -o-border-radius: 50%;
+                            }
+                        }
+                        .comment-box
+                        {
+                            padding-top: 5px;
+                            padding-left:20px;
+                            .name-person
+                            {
+                                font-weight:600;
+                                font-size:1.3rem;
+                            }
+                            .star-box
+                            {
+                                margin-bottom:0;
+                                color:rgb(189, 2, 2);   
+                                .star
+                                {
+                                    font-size:1.2rem;
+                                    margin-left:2px;
+                                    margin-bottom: 6px;
+                                }
+                            }
+                            .comment-content
+                            {
+                                margin-bottom:0;
+                                margin-top:3px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+}
+
+.car__wrapper
+{
+    height:500px;
+    padding: 40px;
+    // background-color: green;
+    margin-top:30px;
+    border-radius:3px;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    -ms-border-radius:3px;
+    -o-border-radius:3px;
+    display:flex;
+    flex-direction:column;
+    #carousel_car{
+        height: auto;
+        width:100%;
+        padding-top: 20px;
+    }    
+}
+
+   
+

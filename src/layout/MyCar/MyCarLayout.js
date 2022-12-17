@@ -1,91 +1,31 @@
 
-import CarCarousel from '../../components/Forms/Carousel/CarCarousel';
+import { useEffect, useState } from 'react';
 import MycarItem from '../../components/MyCarItem/MycarItem';
+import * as request from '../../utils/request';
 import './styles.scss';
 function MyCarLayout() {
 
-    const ListCar = [
-        {
-            Id:1,
-            Name: 'HYUNDAI GRAND I10 SEDAN 2018',
-            type:'Số sàn',
-            Cost: 800,
-            address: 'P.Tân Chính, Q.Thanh Khê',
-            numberStar:4.9
-        },
-        {
-            Id:2,
-            Name: ' TOYOTA COROLLA CROSS G 2020',
-            type:'Số tự động',
-            Cost: 790,
-            address: 'P.Thạc Gián, Q.Thanh Khê',
-            numberStar:4.7
-        },
-        {
-            Id:3,
-            Name: ' CHEVROLET SPARK 2018',
-            type:'Số tự động',
-            Cost: 1120,
-            address: 'P.Hòa Khánh Bắc, Q.Liên Chiểu',
-            numberStar:4.8
-        },
-        {
-            Id:4,
-            Name: ' SUZUKI ERTIGA 2016',
-            type:'Số sàn',
-            Cost: 950,
-            address: 'P.Hòa Cường Bắc, Q.Hải Châu',
-            numberStar:4.9
-        },
-        {
-            Id:5,
-            Name: 'TOYOTA WIGO 2019',
-            type:'Số sàn',
-            Cost: 1000,
-            address: 'P.Hòa An, Q.Cẩm Lệ',
-            numberStar:4.5
-        },
-        {
-            Id:6,
-            Name: 'SUZUKI XL7 2020',
-            type:'Số tự động',
-            Cost: 780,
-            address: 'P.An Hải Bắc, Q.Sơn Trà',
-            numberStar:4.8
-        },
-        {
-            Id:7,
-            Name: 'HONDA BRIO RS 2021',
-            type:'Số sàn',
-            Cost: 840,
-            address: 'P.Bắc Mỹ An, Q.Ngũ Hành Sơn',
-            numberStar:4.9
-        },
-        {
-            Id:8,
-            Name: 'KIA SOLUTO 2019',
-            type:'Số tự động',
-            Cost: 900,
-            address: 'P.Thọ Quang, Q.Sơn Trà',
-            numberStar:4.8
-        },
-        {
-            Id:9,
-            Name: 'KIA SOLUTO 2019',
-            type:'Số tự động',
-            Cost: 900,
-            address: 'P.Thọ Quang, Q.Sơn Trà',
-            numberStar:4.8
-        },
-        {
-            Id:10,
-            Name: 'KIA SOLUTO 2019',
-            type:'Số tự động',
-            Cost: 900,
-            address: 'P.Thọ Quang, Q.Sơn Trà',
-            numberStar:4.8
-        },
-    ]
+   const [idStatus,setIdStatus] = useState(0)
+   const [listCars,setListCars] = useState([])
+    useEffect(()=>{
+        const getApi = async () => {
+            try
+            {
+                const res =  await request.getWithToken(`Car/mycar/${idStatus}`)
+                setListCars(res)
+            }
+            catch(error)
+            {
+                console.log("The error is ",error)
+            }
+        }
+        getApi()
+    },[idStatus])
+
+        console.log("ListCar",listCars)
+        console.log(idStatus)
+   if(listCars)
+   {
     return (
         <div className='mycars__body' >
             <div className="mycars__container">
@@ -93,27 +33,22 @@ function MyCarLayout() {
                 <div className="mycars__filter">
                     <div className="filter-status">
                         <h2>TRẠNG THÁI</h2>
-                        <select name="" id="">
-                            <option value="">Đang chờ duyệt</option>
-                            <option value="">Đã bị từ chối</option>
-                            <option value="">Đang hoạt động</option>
-                            <option value="">Đã cho thuê</option>
+                        <select name="statusCar" id="" onChange={e=>setIdStatus(e.target.value)}>
+                            <option value="0" >Tất cả xe</option>
+                            <option value="1" >Đang chờ duyệt</option>
+                            <option value="2">Đã bị từ chối</option>
+                            <option value="3">Đang hoạt động</option>
+                            <option value="4">Đã cho thuê</option>
                         </select>
                     </div>
                 </div>
                   <div className="mycars__results-filter">
                     <div className="results-filter-wrapper">
-                    <MycarItem/>
-                    <MycarItem/>
-                    <MycarItem/>
-                    {/* {
-                        ListCar.map((item,index)=>(
-                            <div className="results-filter-layout">
-                            {<CarCarousel itemCar = {item}/>}
-                            </div>
-    
+                    {
+                        listCars.map(car=>(
+                            <MycarItem key={car.id} myCar={car}/>
                         ))
-                    } */}
+                    }
                     </div>
                   </div>                   
                 </div>
@@ -122,6 +57,7 @@ function MyCarLayout() {
         
         //  </div>
     );
+   }
 }
 
 export default MyCarLayout;

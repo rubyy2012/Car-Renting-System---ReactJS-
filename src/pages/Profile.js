@@ -9,37 +9,61 @@ import EditInforUser from "../components/Forms/EditInforUser/EditInforUser";
 
 function Profile() {
     const [isPnLayout,setPnLayout] = useState(false);
-    const openPnLayout = () => {
+    const openPnLayout = (user) => {
         setPnLayout(!isPnLayout)
+        setUserData(user)
     }
     const [isEmailLayout,setEmailLayout] = useState(false);
-    const openEmailLayout = () => {
+    const openEmailLayout = (user) => {
         setEmailLayout(!isEmailLayout)
+        setUserData(user)
     }
     const [isGPLayout,setGPLayout] = useState(false);
     const openGPLayout = () => {
         setGPLayout(!isGPLayout)
     }
     const [isUserLayout,setUserLayout] = useState(false);
-    const openUserLayout = () => {
-        setUserLayout(!isUserLayout)
+    const [userData, setUserData] = useState()
+    const openUserLayout = (user) => {
+        setUserData(user)
+        setUserLayout(true)
     }
+    console.log("userData",userData)
+
+    const userToken = localStorage.getItem('userToken')
     return (
         <>
             <div>
-                <Header/>
+                {userData?<Header userData={userData}/>:<Header/>}
                 <ProfileLayout openGP = {openGPLayout} 
                                openEmail={openEmailLayout} 
                                openPn = {openPnLayout} 
-                               openUser = {openUserLayout}/>
+                               openUser = {openUserLayout}
+                               userToken = {userToken}
+                               />
                 <Footer/>
             </div>
 
             <>
-             {isEmailLayout? <EditEmail close={openEmailLayout}/>:''}
-             {isUserLayout? <EditInforUser close={openUserLayout}/>:''}
-             {isPnLayout?  <EditPhoneNumber close={openPnLayout}/>:''}
-             {isGPLayout? <FormGPLX close={openGPLayout}/>:''}
+             {isEmailLayout? <EditEmail 
+                            close={openEmailLayout} 
+                            userData = {userData}    
+                            userToken = {userToken}
+                            />:''}
+             {isUserLayout? <EditInforUser 
+                            close={()=>setUserLayout(false)}  
+                            userData = {userData}    
+                            userToken = {userToken}
+                            />:''}
+             {isPnLayout?  <EditPhoneNumber
+                            close={openPnLayout}
+                            userData={userData} 
+                            userToken = {userToken}
+                            />:''}
+             {isGPLayout? <FormGPLX 
+                            close={openGPLayout}
+                            userToken = {userToken}
+                            />:''}
             </>
         </>
 

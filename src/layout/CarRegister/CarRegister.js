@@ -1,144 +1,190 @@
 import './styles.scss';
-import { FaMapMarkedAlt } from "react-icons/fa";
 import ButtonAccess from '../../components/Forms/ButtonAccess/ButtonAccess';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
 import BaseFormImage from '../../components/BaseFolder/BaseFormImage';
 import { useEffect } from 'react';
-
+import * as request from '../../utils/request';
 
 
 function CarRegister() {
-    
+    const [brands, setBrands] = useState([])
+    const [models, setModels] = useState([])
+    const [capacities,setCapacities] = useState([])
+    const [years,setYears] = useState([])
+    const [transmissions,setTransmissions] = useState([])
+    const [fuelTypes,setFuelTypes] = useState([])
+    const [districts, setDistricts] = useState([])
+    const [wards,setWards] = useState([])
+    const [idBrand,setIdBrand] = useState()
+    // const [idDistrict,setIdDistrict] = useState('490')
 
-    // const formData = new FormData();
-   
-    // const onFileChange = (e) =>
-    // {
-    // //    const boxImage = document.getElementsByClassName('photo__box')[0];
-    // //    const li = document.createElement('li')
-    // //    const imgElement = document.createElement('img');
-    // //    imgElement.className = 'obj-photo';
-    // //    li.appendChild(imgElement);
-    // //    boxImage.appendChild(li);
-    // //    e.preventDefault();
-    // //    const selectedFiles = e.target.files;
-    // //    const selectedFilesArray = Array.from(selectedFiles);
-    // //    const imagesArray = selectedFilesArray.map((image)=>{
-    // //         return URL.createObjectURL(image);
-    // //    })
-    // // //    console.log(imagesArray);
-    // //    setSelectedImages([...selectedImages,...imagesArray]);
-    // //    console.log(...selectedImages);
-    // //    console.log(selectedFiles);
-    // //    for(let i = 0; i<selectedFiles.length;i++)
-    // //    {
-    // //      formData.append('image',selectedFiles[i]);
-    // //    }
-       
-    // }
-    // const formData = new FormData();
-    // const [selectedImages,setSelectedImages] = useState([])
-    // const onFileChange = async (e) => {
-    //    const selectedFiles = e.target.files;
-    //    console.log(selectedFiles);
-       
-    //    //Xử lý hiển thị hình ảnh
-    //    const selectedFilesArray = Array.from(selectedFiles);
-    //    const imagesArray = selectedFilesArray.map((image)=>{
-    //         return URL.createObjectURL(image);
-    //    })
-    //    setSelectedImages([...selectedImages,...imagesArray]); 
-       
-    // //    Xử lý dữ liệu gửi đi
-    // if(selectedFiles)
-    // {
-    //     for(let i = 0; i<selectedFiles.length;i++)
-    //     {
-    //         formData.append('image',selectedFiles[i]);
-    //     }
-    // }
-    // }
+    const [data,setData] = useState({
+        idBrand:'1',
+        CarModelId:'',
+        FuelTypeId:'',
+        TransmissionId:'',
+        YearManufacture:'',
+        idDistrict: '490',
+        WardId:'',
+        Plate_number: '',
+        FuelConsumption: '',
+        Cost: '',
+        Capacity: '',
+        Description:'',
+        Address:'',
+        Rule:''
+    })
 
-    // const submitFormData = async (e) => {
-    //              e.preventDefault();
-    //              await axios.post('https://6370fed40399d1995d888ffe.mockapi.io/api/Auth/images',{formData},{
-    //                 headers: {
-    //                   'Content-Type': 'multipart/form-data'
-    //                 }
-    //             })
-    //                 .then(res=>console.log(res))
-    //                 .catch(error=>console.log(error));             
-    // }
-    
-    const [data,setData] = useState()
-    const [carBrandList, setBrand] = useState([])
-    const [carModelList, setModel] = useState([])
-    const [idBrand,setIdBrand] = useState(0)
-
-    const handleChangeBrand = (e) => {
-        const getIdBrand = e.target.value
-        setIdBrand(getIdBrand)
-        console.log('hello')
-    }
-    console.log(idBrand)
+     //GET AUX INFOR
+    useEffect(()=>{
+        const getAuxInfor = async () => {
+            try 
+            {
+                const res = await request.get('Car/CarMoreInfor')
+                setCapacities(res.capacities)
+                setYears(res.yearManufactures)
+                setTransmissions(res.transmissions)
+                setFuelTypes(res.fuelTypes)
+                // console.log(res) OK
+            }
+            catch(error)
+            {
+                console.log('brands:something error')
+            }  
+        }
+        getAuxInfor()},[])
+        //GET BRAND - MODEL
+    useEffect(()=>{
+        const getBrands = async () => {
+            try 
+            {
+                const res = await request.get('Brand')
+                setBrands(res)
+                console.log(res) 
+                // console.log(res) OK
+            }
+            catch(error)
+            {
+                console.log('brands:something error')
+            }  
+        }
+        getBrands()},[])
 
     useEffect(()=>{
-        
-        const getData= async () => {
+        const getModels= async () => {
             try {
-                axios.get('http://localhost:3000/data')
-                .then(res=>{
-                    let brandlist=[]
-                    let modellist=[]
-                    for(let i in res.data.carBrand){
-                        
-                        let car_brand = {
-                            id: res.data.carBrand[i].id,
-                            name: res.data.carBrand[i].name
-                        };
-                        brandlist.push(car_brand)
-                                                              
-                        let model_list=[];
-                        let list_car=res.data.carBrand[i]
-                        for(let j in list_car.carModel){
-                            let model = {
-                                id: list_car.carModel[j].id,
-                                name: list_car.carModel[j].name 
-                            }
-                            model_list.push(model)
-                            //console.log(model_list)
-                        }
-                        
-                        modellist.push(model_list)
-                        
-                    }
-                    
-                    setBrand(brandlist) 
-                    setModel(modellist)   
-                    // console.log(brandList)
-
-                    // setData(res.data)
-                    // console.log(data)
-                })
+                console.log(data.idBrand)
+                const res = await request.get(`Brand/${data.idBrand}`)
+                setModels(res)
             }
+            catch(error)
+            {
+                console.log('models:something error')
+            }  
+        }
+        getModels()
+    },[data.idBrand])
+
+     //GET LOCATION
+    useEffect(()=>{
+ 
+        const getDistrict = async () => {
+            try {
+                const res = await request.get('District')
+                setDistricts(res)
+            }
+
             catch(error)
             {
                 console.log('districts:something error')
             }  
         }
-        getData()},[])
-        // setIdBrand(...idBrand,1)
-        // console.log(carBrandList)
+        getDistrict()},[data])
+
+    useEffect(()=>{
+            const getWards = async() => 
+            {
+                try
+                {
+                    const res = await request.get(`District/${data.idDistrict}`)
+                    setWards(res)
+                }
+                catch(error)
+                {
+                    console.log('wards:something error',error)
+                }   
+            }
+            getWards()     
+        },[data.idDistrict])
+
+      
+
+        //XỬ LÝ ẢNH
+        const formData = new FormData()
+       const [selectedImages,setSelectedImages] = useState([])
+       const [images,setImages] = useState([])
+       const onFileChange = async (e) =>
+        {
+            const selectedFiles = e.target.files;
+            setImages(selectedFiles)
+            //Xử lý hiển thị hình ảnh
+            const selectedFilesArray = Array.from(selectedFiles);
+            const imagesArray = selectedFilesArray.map((image)=>{
+                return URL.createObjectURL(image);
+            })
+            setSelectedImages([...selectedImages,...imagesArray]); 
+        }
+        //  Xử lý dữ liệu gửi đi
+        // console.log(images)
+            if(images)
+            {
+                for(let i = 0; i<images.length;i++)
+                {
+                    formData.append('image',images[i]);
+                }
+            }
+            formData.append('CarModelId',data.CarModelId)
+            formData.append('FuelTypeId',data.FuelTypeId)
+            formData.append('TransmissionId',data.TransmissionId)
+            formData.append('YearManufacture',data.YearManufacture)
+            formData.append('WardId',data.WardId)
+            formData.append('Address',data.Address)
+            formData.append('Plate_number',data.Plate_number)
+            formData.append('FuelConsumption',data.FuelConsumption)
+            formData.append('Rule',data.Rule)
+            formData.append('Description',data.Description)
+            formData.append('Cost',data.Cost)
+            formData.append('Capacity',data.Capacity)
+        
+            //HANDLE ON-CHANGE
+       const handleOnChange = (e) => {
+        setData({...data,[e.target.name]:e.target.value})        
+        }
+
+        
+        // SEND API
+        const handleSubmit = async () => {
+            try
+            {
+                const res = await request.postWithFormData('Car/CarAdd',formData)
+                console.log(res)
+            }
+            catch(error)
+            {
+                console.log(error)
+            } 
+        }
+
+    if(brands)
+    {
     return (
         
         <div className='module-register'>
         
             <div className="register-container">
                 <div className="content-register">
-                <form action="">
-                    <div className="group form-default">
+                <form>
+                <div className="group form-default">
                         <h6>Biển số xe</h6>
                         <p className="fl">
                             <span className='note'>Lưu ý: Biển số sẽ không thể thay đổi sau khi đăng kí.</span>
@@ -146,12 +192,15 @@ function CarRegister() {
                         <div className="col-left">
                             <div className="line-form">
                                 <div className="wrap-input">
-                                    <input type="text"  />
+                                    <input 
+                                    type="text" 
+                                    name='Plate_number' 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.Plate_number}                                       
+                                    />
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="space m clear">
-                        </div> */}
                         <div className="clear"></div>
 
                         <h6>Thông tin cơ bản</h6>
@@ -163,10 +212,15 @@ function CarRegister() {
                             <div className="line-form">
                                 <label htmlFor="" className='label'>Hãng xe</label>
                                 <span className='wrap-select'>
-                                    <select name="" id="" onChange={e=>handleChangeBrand(e)}>
+                                    <select 
+                                    name="idBrand" 
+                                    id="" 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.idBrand}
+                                    >
                                     {
-                                        carBrandList.map((item,index)=>(
-                                            <option value={index} key={index}>{item.name}</option>
+                                        brands.map((item)=>(
+                                            <option value={item.id} key={item.id}>{item.name}</option>
                                         ))
                                     }
                                     </select>
@@ -177,8 +231,17 @@ function CarRegister() {
                          <div className="line-form">
                                  <label htmlFor="" className='label'>Mẫu xe</label>
                                  <span className='wrap-select'>
-                                    <select name="" id="">
-                                    
+                                    <select 
+                                    name="CarModelId" 
+                                    id="" 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.CarModelId}
+                                    >
+                                    {
+                                        models.map((item)=>(
+                                            <option value={item.id} key={item.id}>{item.name}</option>
+                                        ))
+                                    }
                                     </select>
                                 </span>
                             </div>
@@ -189,12 +252,17 @@ function CarRegister() {
                             <div className="line-form">
                                 <label htmlFor="" className='label'>Số ghế</label>
                                 <span className='wrap-select'>
-                                    <select name="" id="">
-                                        <option value="">4</option>
-                                        <option value="">5</option>
-                                        <option value="">6</option>
-                                        <option value="">7</option>
-                                        <option value="">8</option>
+                                    <select 
+                                    name='Capacity' 
+                                    id="" 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.Capacity}
+                                    >
+                                    {
+                                        capacities.map((item)=>(
+                                            <option value={item.capacity} key={item.id}>{item.capacity}</option>
+                                        ))
+                                    }
                                     </select>
                                 </span>
                             </div>
@@ -204,13 +272,17 @@ function CarRegister() {
                          <div className="line-form">
                                  <label htmlFor="" className='label'>Năm sản xuất</label>
                                  <span className='wrap-select'>
-                                    <select name="" id="">
-                                        <option value="">2017</option>
-                                        <option value="">2018</option>
-                                        <option value="">2019</option>
-                                        <option value="">2020</option>
-                                        <option value="">2021</option>
-                                        <option value="">2022</option>
+                                    <select 
+                                    name='YearManufacture' 
+                                    id="" 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.YearManufacture}
+                                    >
+                                    {
+                                        years.map((item)=>(
+                                            <option value={item.year} key={item.id}>{item.year}</option>
+                                        ))
+                                    }
                                     </select>
                                 </span>
                             </div>
@@ -221,9 +293,17 @@ function CarRegister() {
                             <div className="line-form">
                                 <label htmlFor="" className='label'>Truyền động</label>
                                 <span className='wrap-select'>
-                                    <select name="" id="">
-                                        <option value="">Số tự động</option>
-                                        <option value="">Số sàn</option>
+                                    <select 
+                                    name='TransmissionId' 
+                                    id="" 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.TransmissionId}
+                                    >
+                                    {
+                                        transmissions.map((item,index)=>(
+                                            <option value={item.id} key={index}>{item.name}</option>
+                                        ))
+                                    }
                                     </select>
                                 </span>
                             </div>
@@ -233,9 +313,17 @@ function CarRegister() {
                          <div className="line-form">
                                  <label htmlFor="" className='label'>Loại nhiên liệu</label>
                                  <span className='wrap-select'>
-                                    <select name="" id="">
-                                        <option value="">Xăng</option>
-                                        <option value="">Dầu diesel</option>
+                                    <select 
+                                    name="FuelTypeId" 
+                                    id="" 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.FuelTypeId}
+                                    >
+                                    {
+                                        fuelTypes.map((item)=>(
+                                            <option value={item.id} key={item.id}>{item.name}</option>
+                                        ))
+                                    }
                                     </select>
                                 </span>
                             </div>
@@ -252,17 +340,24 @@ function CarRegister() {
                         <div className="line-form">
                                 <label htmlFor="" className="label"></label>
                                 <div className="wrap-input">
-                                    <input type="text"  />
+                                    <input 
+                                    type="text" 
+                                    name='FuelConsumption' 
+                                    onChange={e=>handleOnChange(e)} 
+                                    value={data.FuelConsumption}
+                                    />
                                 </div>
                             </div>
                         </div>
                         <h6>Mô tả</h6>
-                        <textarea name="" id="" cols="30" rows="10" className='textarea'
-                         placeholder=' Huyndai Elantra số tự động đăng kí tháng 06/2018. Xe gia đình mới đẹp, 
-                        nội thất nguyên bản, sạch sẽ, bảo dưỡng thường xuyên, rửa xe miễn phí cho khách.
-                        Xe rộng rãi, an toàn, tiện nghi, phù hợp cho gia đình du lịch. Xe trang bị hệ 
-                        thống cảm biến lùi, gạt mưa tự động, đèn pha tự động, camera hành trình, hệ thống 
-                        giải trí AV cùng nhiều tiện nghi khác...'>
+                        <textarea 
+                         id="" cols="30" rows="10" 
+                         className='textarea'
+                         placeholder='Mô tả tổng quan về xe...' 
+                        name='Description' 
+                        onChange={e=>handleOnChange(e)} 
+                        value={data.Description}
+                        >
                         </textarea>
                         <h6>Đơn giá thuê mặc định</h6>
                         <div className="fl">
@@ -280,7 +375,12 @@ function CarRegister() {
                                     </p>
                                     <div className='wrap-input-label d-flex'>
                                         <div className="wrap-input">
-                                            <input type="text" />
+                                            <input 
+                                                type="text" 
+                                                name='Cost' 
+                                                onChange={e=>handleOnChange(e)} 
+                                                value={data.Cost}
+                                                />
                                         </div>
                                         <span className='phay'>K</span>
                                     </div>
@@ -288,34 +388,37 @@ function CarRegister() {
                             </div>
                         </div>
                         <div className="space m"></div>
-                        {/* <h6>Địa chỉ xe</h6>
-                        <div className="line-form">
-                            <div className='wrap-input has-ico-search'>
-                                <input type="text" placeholder='Địa chỉ mặc định để giao nhận xe.' />
-                                <button type='button'>
-                                     <FaMapMarkedAlt className='input__map-icon'/>
-                                </button>
-                            </div>
-                        </div> */}
                         <div className="space m clear"></div>
                         <h6>Điều khoản thuê xe</h6>
                         <p><span className='note'>Ghi rõ yêu cầu khách có thể thuê xe</span></p>
                         <div className="line-form end">
-                            <textarea name="" id="" cols="30" rows="10" className='textarea' 
-                             placeholder='Không sử dụng xe vào mục đích phi pháp. Lái xe cẩn thận, giữ xe sạch sẽ, trả xe đúng giờ. Phụ thu 500k nếu hút thuốc lá trong xe.'>
+                            <textarea 
+                               id="" cols="30" rows="10" 
+                               className='textarea' 
+                               placeholder='Ghi rõ điều khoản thuê xe...'
+                               name="Rule"
+                               value={data.Rule} 
+                               onChange={e=>handleOnChange(e)}
+                             >
                             </textarea>
                         </div>
-                        {/* <div className="space m"></div> */}
-
 
                         <h6>Địa chỉ xe</h6>
                         <div className="col-left">
                             <div className="line-form">
                                 <label htmlFor="" className='label'>Quận</label>
                                 <span className='wrap-select'>
-                                    <select name="" id="">
-                                        <option value="">Q. Liên Chiểu</option>
-                                        <option value="">Q. Thanh Khê</option>
+                                    <select 
+                                        name="idDistrict" 
+                                        id="" 
+                                        onChange={e=>handleOnChange(e)} 
+                                        value={data.idDistrict}
+                                        >
+                                        {
+                                        districts.map((district)=>(
+                                            <option value={district.id} key={district.id}>{district.name}</option>
+                                        ))
+                                        } 
                                     </select>
                                 </span>
                             </div>
@@ -325,10 +428,14 @@ function CarRegister() {
                          <div className="line-form">
                                  <label htmlFor="" className='label'>Phường</label>
                                  <span className='wrap-select'>
-                                    <select name="" id="">
-                                        <option value="">P. Hòa An</option>
-                                        <option value="">P. Hòa Thuận</option>
-                                        <option value="">P. Hòa Hải</option>
+                                    <select 
+                                        name="WardId" 
+                                        id=""  
+                                        onChange={e=>handleOnChange(e)}
+                                        value={data.WardId}
+                                        >
+                                        {wards.map(ward => 
+                                        (<option key={ward.id} value={ward.id}>{ward.name}</option>))}
                                     </select>
                                 </span>
                             </div>
@@ -340,20 +447,26 @@ function CarRegister() {
                         <div className="col-left">
                             <div className="line-form">
                                 <div className="wrap-input">
-                                    <input type="text"  />
+                                    <input 
+                                        type="text" 
+                                        name='Address' 
+                                        onChange={e=>handleOnChange(e)} 
+                                        value={data.Address}
+                                        />
                                 </div>
                             </div>
                         </div>
 
                         <h6>Hình ảnh</h6>
-                        <BaseFormImage/>
-                        <ButtonAccess namebtn='ĐĂNG KÝ'/>
-                    </div>
-                </form>
+                        <BaseFormImage selectedImages={selectedImages} setSelectedImages={selectedImages} onFileChange={onFileChange}/>
+                        <ButtonAccess namebtn='ĐĂNG KÝ' onHandleSubmit={handleSubmit}/>
                 </div>
+              </form>
             </div>
         </div>
+        </div>
     );
+}
 }
 
 export default CarRegister;

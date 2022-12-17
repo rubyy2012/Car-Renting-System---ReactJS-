@@ -10,10 +10,7 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Authorization from '../../../apiServices/Authorization';
-import jwt from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
@@ -59,7 +56,7 @@ function Register(props) {
                             console.log('try')
                             handleCloseModal();
                             setIsValidUser(null)
-                            navigate('/')
+                            window.location.reload()
                     })
                     .catch((error)=>{
                         setIsValidUser(error.response.data.Message)

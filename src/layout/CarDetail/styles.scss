@@ -57,6 +57,23 @@
         // z-index: 20;
         background-color: #f8f9fb;
         box-shadow: 0 1px 6px rgb(0 0 0 / 30%);
+        p.location-transaction
+        {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #086c14;
+        }
+        p.status-valid
+        {
+            color: #089f1a;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-style: italic;
+        }
+        p.status-valid.invalid
+        {
+            color: #a32d01;
+        }
         .price {
             h3{
                 font-weight: 700;
@@ -82,11 +99,29 @@
                 color: #141414;
                 text-align: left;
             }
+            .choose-location-infor
+            {
+                width:100%;
+                padding: 0 20px;
+                height:100%;
+                outline:none;
+                border:none;
+            }
             .wrap-input.date
             {
-                float: left;
-                width: 60%;
-            }
+                // float: left;
+                // width: 60%;
+                input[type='date']
+                {
+                    width:100%;
+                    padding: 0 20px;
+                }
+                border-radius: 3px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                -ms-border-radius: 3px;
+                -o-border-radius: 3px;
+}
             .wrap-input.has-dropdown {
                 position: relative;
                 cursor: pointer;
@@ -374,11 +409,19 @@
                     display: flex;
                     position: relative; 
                     box-sizing: border-box; 
+                    color:#ff0606;
+                    font-weight:700;
+                    .star
+                    {
+                        margin-top:4px;
+                        margin-left:3px;
+                    }
                 }
                 p.desc{
                     font-size: 14px;
                     margin-top:10px;
                     text-align: left;
+                    font-weight:500;
                 }
             }
         }
@@ -469,9 +512,11 @@ button.btn-loadmore
         }
         .side__bar-detail{
             width: 100%;
+           
         }
     }
 
+   
     .car__detail-banner
     { 
         .car__banner-wrapper

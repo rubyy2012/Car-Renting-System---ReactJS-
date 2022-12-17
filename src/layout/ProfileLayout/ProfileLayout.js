@@ -1,9 +1,92 @@
 
 import './styles.scss';
 import { FaEdit } from "react-icons/fa";
-import Avatar from '../../components/Avatar/Avatar';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import React from 'react';
+import * as request from '../../utils/request';
+import BaseFromImage from '../../components/BaseFolder/BaseFormImage'
 function ProfileLayout(props) {
-   
+    const [user,setUser] = useState({
+        fullname:'',
+        contact:'',
+        profileImage: '',
+        number:'',
+        dateOfBirth:'',
+        createdAt:'',
+        gender:'',
+        email:''
+    })
+    useEffect(()=>{
+        const getUserInfor = async () => {
+            try
+            {
+                const res = await request.getWithToken('profile/me')
+                let option = {day:'2-digit',month:'2-digit',year:'numeric'}
+                let createDay = new Date(res.createdAt)
+                let birthDay = new Date(res.dateOfBirth)
+                res.createdAt = createDay.toLocaleDateString('nl-NL',option)
+                res.dateOfBirth = birthDay.toLocaleDateString('nl-NL',option)
+                setUser(res)
+            }
+            catch(error)
+            {
+                console.log("Check your token",error)
+            }
+        }    
+        getUserInfor()  
+    },[])
+    //UPDATE INFOR
+
+
+    console.log(user)
+    // console.log(day.toLocaleDateString("en-US"))
+
+    //XỬ LÝ ẢNH
+    const formData = new FormData()
+    const [selectedImages,setSelectedImages] = useState([])
+    const [images,setImages] = useState([])
+    const onFileChange = async (e) =>
+     {
+         chooseAvtBtn[0].classList.add('hide')
+         const selectedFiles = e.target.files;
+         setImages(selectedFiles)
+         //Xử lý hiển thị hình ảnh
+         const selectedFilesArray = Array.from(selectedFiles);
+         const imagesArray = selectedFilesArray.map((image)=>{
+             return URL.createObjectURL(image);
+         })
+         setSelectedImages([...selectedImages,...imagesArray]); 
+     }
+     //  Xử lý dữ liệu gửi đi
+     if(images)
+         {
+             for(let i = 0; i<images.length;i++)
+             {
+                 formData.append('userAvatar',images[i]);
+             }
+         }
+      
+         
+    const chooseAvtBtn = document.getElementsByClassName('obj-photo')
+    const [avatar,setAvatar] = useState('')
+    const sendAvatar = async () => {
+        try
+        {
+            const res = await request.putWithFormData('account/avatar',formData)
+            setAvatar(res.profileImage)
+            window.location.reload()
+            console.log(res)
+        }
+        catch(error)
+        {
+            console.log(error)
+        }
+    }
+       
+
+    
+    if(user){
     return (
         <>
         <div className="body__profile">
@@ -14,26 +97,34 @@ function ProfileLayout(props) {
 
             </div>
             <div className="profile-sec">
+        <button onClick={sendAvatar}>SAVE</button>
+
                 <div className="content-profile--new">
                     <div className="desc-profile desc-account">
                         <div className="avatar-box">
                             <div className="avatar-box--layout">
-                                 <Avatar/>
+                                 <div className='avatar-wrapper'>
+                                    <img src={user.profileImage} alt='error' className='myavatar'></img>         
+                                    <BaseFromImage selectedImages={selectedImages} setSelectedImages={selectedImages} onFileChange={onFileChange}/>
+                                </div>
                             </div>
+
                         </div>
+
+
                         <div className="snippet">
                             <div className="profile-infor">
                                 <div className="item-content">
                                     <div className="item-title">
-                                        <h2>Hồng Ngọc</h2>
+                                        <h2>{user.fullname}</h2>
                                         <span>
-                                            <button className='btn-edit--user' onClick={props.openUser}>
+                                            <button className='btn-edit--user' onClick={()=>props.openUser(user)}>
                                                 <FaEdit className='icon-edit-user'/>
                                             </button>
                                         </span>
                                     </div>
                                     <div className="d-flex">
-                                        Tham gia: 26/12/2020
+                                        Tham gia: {user.createdAt}
                                     </div>
                                 </div>
                             </div>
@@ -41,17 +132,16 @@ function ProfileLayout(props) {
                                 <div className="d-flex">
                                     <div className="infor">
                                         <span className="label">Ngày sinh </span>
-                                        <span className="ctn">01/01/1950</span>
+                                        {user.dateOfBirth?<span className="ctn">{user.dateOfBirth}</span>:''}
                                     </div>
                                     <div className="infor">
                                         <span className="label">Giới tính </span>
-                                        <span className="ctn">Nữ</span>
+                                        {user.gender?<span className="ctn">{user.gender}</span>:''}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
                 </div>
                 <div className="desc-profile">
                         <div className="information information--desc">
@@ -61,6 +151,9 @@ function ProfileLayout(props) {
                                         <span className="label">
                                             Điện thoại
                                             <button className='btn-edit--user' onClick={props.openPn}><FaEdit className='icon-edit-user'/></button>
+                                            <span className='ctn'>
+                                                  {user.contact?<label>{user.contact}</label>:<label>Chưa xác thực số điện thoại</label>}
+                                            </span>
                                         </span> 
                                     </li>
 
@@ -68,27 +161,32 @@ function ProfileLayout(props) {
                                         <span className="label">
                                             GPLX
                                             <button className='btn-edit--user' onClick={props.openGP}><FaEdit className='icon-edit-user'/></button>
+                                            <span className="ctn">
+                                            {user.number?<label>{user.number}</label>: <label>Chưa xác thực GPLX</label>}
+                                            </span>
                                         </span> 
-                                        <span className="ctn">
-                                            <label>Chưa xác thực GPLX</label>
-                                        </span>
+                                       
                                     </li>
                                     <li> 
                                         <span className="label">
                                             Email
                                             <button className='btn-edit--user' onClick={props.openEmail}><FaEdit className='icon-edit-user'/></button>
+                                            <span className='ctn'>
+                                                 {user.email?<label>{user.email}</label>: <label>Chưa xác thực email</label> }
+                                            </span>
                                         </span> 
                                     </li>
                                     <li></li>
                                 </ul>
                             </div>
                         </div>
+
                 </div>
             </div>
         </div>
-        {/* <EditPhoneNumber/> */}
+
         </>
     );
-}
+}}
 
 export default ProfileLayout;

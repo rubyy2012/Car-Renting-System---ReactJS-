@@ -1,12 +1,36 @@
 import './styles.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ButtonAccess from '../ButtonAccess/ButtonAccess';
 import ModalLayout from '../../Modal/ModalLayout';
+import { useState } from 'react';
+import * as request from '../../../utils/request';
 
 function EditPhoneNumber(props) {
+    const [phoneNumber,setPhoneNumber] = useState('')
+    const handleOnChange = (e) => {
+        setPhoneNumber(e.target.value)
+    }
+    
+    //HANDLE API
+    const data = [{
+        "path": "contact",
+         "op":"replace",
+         "value":phoneNumber
+    }]
+    const handleSubmit = async() => {
+        try
+        {
+                const res = await request.patch('Account',data)
+                console.log(res)
+                window.location.reload()
+        }
+        catch (error)
+        {
+            console.log('Errors in updating phone number',error)
+        }
+    }
+    
     return (
-        // <div className='pn__container'>
-        //     <div className="phone__number-layout">
         <ModalLayout>
             <div className="modal__phone-number">
                 <form action="">
@@ -15,16 +39,24 @@ function EditPhoneNumber(props) {
                         <h2 className='pn__header-title'>Cập nhật số điện thoại</h2>
                     </div>
                     <div className="pn__input-wrapper">
-                       <input className='pn__input' type="text" placeholder='Số điện thoại' />
+                       <input 
+                            className='pn__input' 
+                            type="text" 
+                            placeholder='Số điện thoại'
+                            value = {phoneNumber}
+                            name='contact'
+                            onChange={e=>handleOnChange(e)}
+                            />
                     </div>
                     <div className="pn__btn-wrapper">
-                        <ButtonAccess namebtn="Cập nhật"/>
+                        <ButtonAccess 
+                        namebtn="Cập nhật" 
+                        onHandleSubmit = {handleSubmit}                          
+                        />
                     </div>
                 </form>
             </div>
         </ModalLayout>
-        //     </div>
-        // </div>
     );
 }
 

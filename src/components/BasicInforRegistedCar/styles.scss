@@ -26,6 +26,18 @@
             float: left;
             width: 50%;
         }
+        .line-form
+        {
+            .wrap-input {
+                 input[type="text"]
+                 {
+                    width: 100%;
+                    height: 100%;
+                    outline: none;
+                    border: none;
+                 }
+            }
+        }
         span.takenote{
             display: block;
             float: left;
@@ -49,10 +61,15 @@
         background-color: rgb(24, 124, 62);
         font-weight: 500;
         font-size: 1.2rem;
+        &:hover
+        {
+            background-color: rgb(3, 83, 3);
+        }
     }
 
     input.inactive{
         background-color: rgba(242, 242, 242, 0.806);
+       
     }
 }
 

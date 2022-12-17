@@ -14,9 +14,8 @@ import { useEffect } from 'react';
 import jwt from 'jwt-decode';
 
 function Header(props) {
-
+    // console.log('userdata',props.userData)
     const [isLogin,setIsLogin] = useState(false);
-    //const userToken = localStorage.getItem('userToken')||null;
     const [userToken,setUserToken] = useState(localStorage.getItem('userToken')||null)
     const [name,setName] = useState('')
     
@@ -26,13 +25,7 @@ function Header(props) {
         {
             setUserToken(token)
             const user = jwt(userToken)
-            console.log(user)
             setName(user.family_name)
-            // if(user.exp < Date.now() - user.iat)
-            // {
-            //     setIsLogin(false)
-            //     localStorage.removeItem('userToken')
-            // }
             setIsLogin(true);
         }
         else{
@@ -62,7 +55,7 @@ function Header(props) {
 
         
         <div>
-            <header>
+            {/* <header> */}
             <Container fluid className="bg-dark border" id='header'>
                 <div className ="header__container">        
                     <div className="header__container-left">
@@ -91,17 +84,23 @@ function Header(props) {
                                     <img src={avatar} alt="" className='img_avt'/>
                                     {name}
                                 </button>
+                                {/* <select onChange={props.onChange} */}
                                 { showAccountBlock? <div className="user__account">
                                     <ul className="user__account-list">
                                         <li><Link to ="/profile">Tài khoản</Link></li>
                                         <li><Link to ="/myCars">Xe của tôi</Link></li>
                                         <li><Link to ="/myTrips">Chuyến của tôi</Link></li>
-                                        <li><button onClick={props.openChangePw}>Đổi mật khẩu</button></li>
+                                        {/* <li><button onClick={props.openChangePw}>Đổi mật khẩu</button></li> */}
                                         <li><button onClick={handleLogout}>Đăng xuất</button></li>
                                     </ul>
                                 </div>: ''}
-                            </li>: <><li><button onClick={props.openLogin} className='log'>Đăng nhập</button></li>
-                            <li><button onClick={props.openRegister} className='log btn__style'>Đăng ký</button></li></> }
+                            </li>: <><li>
+                                    {/* <button onClick={props.openLogin} className='log'>Đăng nhập</button> */}
+                                    </li>
+                            <li>
+                                    {/* <button onClick={props.openRegister} className='log btn__style'>Đăng ký</button> */}
+                            </li></> 
+                            }
                           
                         </ul>
                         <button className='header__menu-btn'>
@@ -112,7 +111,7 @@ function Header(props) {
                 <img src={leftImg} className="header__img-left"alt="erorr" />
                 <img src={leftImg} className="header__img-right"alt="erorr" />
             </Container>
-            </header>
+            {/* </header> */}
         </div>
     );
 }

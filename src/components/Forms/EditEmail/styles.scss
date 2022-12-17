@@ -48,8 +48,10 @@
     }
     .email__input
     {
-        width:80%;
+        border-radius: 5px;
+        padding: 14px 10px;
+        // width: -webkit-fill-available;
+        width:90%;
         border:1px solid #ccc;
-        padding: 10px 20px;
         outline:none;
     }

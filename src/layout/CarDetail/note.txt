@@ -1,0 +1,26 @@
+ {
+                                    listComments.map((item,index)=>(
+                                        <div className="list-comments" key={index}>
+                                    <div className="left">
+                                        {/* <div className="fix-avatar"> */}
+                                            <Link to ="">
+                                            <img src={item.profileImage} alt="" />
+                                            {/* <Avatar/> */}
+                                            </Link>
+                                    </div>
+                                    <div className="right">
+                                        <Link to ="">
+                                            <h4>{item.accountDto.fullname}</h4>
+                                        </Link>
+                                        <div className="cmt-box">
+                                            <div className="group">
+                                                {item.rating}
+                                            </div>
+                                            <p className="desc">
+                                            {item.content}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                    ))
+                                }
